@@ -1,0 +1,358 @@
+﻿
+
+<style>
+    .txtBox {
+        width: 2rem;
+    }
+
+    .wideBox {
+        width: 5rem;
+    }
+
+    .img-fluid {
+        width: 50px;
+    }
+
+    td {
+        width: 1rem;
+    }
+
+    td.editable {
+            border: solid;
+            border-color: aqua;
+    }
+
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        /*flex-direction: row;
+        justify-content: space-evenly;*/
+    }
+
+    .image_1 {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 50%;
+        height: 50%;
+        z-index: 99;
+    }
+
+    .image_2 {
+        position: absolute;
+        top: 20px;
+        left: 50px;
+        width: 100px;
+        height: auto;
+        z-index: 98;
+    }
+
+    .window_1 {
+        width: 18rem;
+        height: 18rem;
+        clip: rect(0, 0, 100, 100)
+    }
+
+    .window_2 {
+        width: 18rem;
+        height: 25rem;
+        background-color: darkslategray;
+        clip: rect(0%, 0%, 100%, 100%)
+    }
+
+</style>
+
+<div class="card window_1">
+    @*<div class="card window_2">*@
+    <img src="~/img/grid.jpg" class="card-img-top" alt="...">
+    <img src="~/img/pan.png" class="image_1" alt="...">
+    <img src="~/img/kit.png" class="img-fluid image_2" alt="...">
+    @*</div>*@
+    @*<div class="card-body d-flex flex-column">
+        <div class="card-title">Custom Image Example</div>
+        @*<p class="card-text">@p.Price</p>*@
+    @*<a href="product/details/1" class="btn btn-primary">Get Details</a>
+        </div>*@
+</div>
+
+<div class="container">
+    <div class="row">
+       
+        <div class="col-sm">
+            Collumn of images and items goes here
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            Options row goes here
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            @*Main grid goes here*@
+            <table>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        Main Image
+                    </td>
+                    <td>
+                        Color
+                    </td>
+                    <td>
+                        Color
+                    </td>
+                    <td>
+                        ID
+                    </td>
+                    <td>
+                        SKU/GCN
+                    </td>
+                    <td>
+                        cnt
+                    </td>
+                    <td>
+                        Sell if out
+                    </td>
+                    <td class="editable">
+                        MSRP
+                    </td>
+                    <td class="editable">
+                        Price
+                    </td>
+                    <td class="editable">
+                        lbs V
+                    </td>
+                    <td class="editable">
+                        USD V
+                    </td>
+                    <td class="editable">
+                        Lead time
+                    </td>
+                    <td class="editable">
+                        Reorder trigger
+                    </td>
+                    <td class="editable">
+                        Reorder link
+                    </td>
+                    <td class="editable">
+                        SOP
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>
+                        <input class="wideBox" type="text" />
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                    <td>
+                        <input class="txtBox" type="text" />
+                    </td>
+                </tr>
+
+                @for (int i = 2; i > 0; i--)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>
+                            <img src="~/img/pan.png" class="img-fluid" alt="...">
+                        </td>
+                        <td>
+                            Blue
+                        </td>
+                        <td>
+                            Blue
+                        </td>
+                        <td>
+                            OrBuPpBuKtFg
+                        </td>
+                        <td>
+                            123456789012
+                        </td>
+                        <td>
+                            327
+                        </td>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                        <td>
+                            <input class="txtBox" type="text" />
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+
+
+            @*<div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input type="checkbox" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="wideBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+
+                        </div>
+                        <div class="col-sm">
+
+                        </div>
+                        <div class="col-sm">
+
+                        </div>
+                        <div class="col-sm">
+
+                        </div>
+                        <div class="col-sm">
+
+                        </div>
+                        <div class="col-sm">
+                            <input type="checkbox" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <input type="checkbox" />
+                        </div>
+                        <div class="col-sm">
+                            <img src="~/img/pan.png" class="img-fluid" alt="...">
+                        </div>
+                        <div class="col-sm">
+                            Blue
+                        </div>
+                        <div class="col-sm">
+                            Blue
+                        </div>
+                        <div class="col-sm">
+                            OrBuPpBuKtFg
+                        </div>
+                        <div class="col-sm">
+                            123456789012
+                        </div>
+                        <div class="col-sm">
+                            327
+                        </div>
+                        <div class="col-sm">
+                            <input type="checkbox" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                        <div class="col-sm">
+                            <input class="txtBox" type="text" />
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
