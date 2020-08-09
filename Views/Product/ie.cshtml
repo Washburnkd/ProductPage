@@ -6,15 +6,22 @@
 <h1>ie</h1>
 
 <style>
-    .item {
+    .itm {
         height: 50px;
         width: 50px;
         position: absolute;
         background-color: gold;
-        cursor:move;
+        object-fit:contain;
+        cursor: move;
+    }
+    .image01 {
+        height: 30px;
+        width: 30px;
+        object-fit:inherit;
+        transform: rotate(0deg);
     }
 
-    .scale {
+    .drag {
         position: absolute;
         width: 5px;
         height: 5px;
@@ -23,48 +30,74 @@
         z-index: 2;
     }
 
-        .scale.nw {
+        .drag.nw {
             top: -1px;
             left: -1px;
             cursor: nw-resize;
         }
-        .scale.ne {
+        .drag.n {
+            top: -1px;
+            left: 25px;
+            cursor: n-resize;
+        }
+        .drag.ne {
             top: -1px;
             right: -1px;
             cursor: ne-resize;
         }
-        .scale.sw {
-            bottom: -1px;
-            left: -1px;
-            cursor: sw-resize;
+        .drag.e {
+            top: 25px;
+            right: -1px;
+            cursor: e-resize;
         }
-        .scale.se {
+        .drag.se {
             bottom: -1px;
             right: -1px;
             cursor: se-resize;
         }
+        .drag.s {
+            bottom: -1px;
+            left: 25px;
+            cursor: s-resize;
+        }
+        .drag.sw {
+            bottom: -1px;
+            left: -1px;
+            cursor: sw-resize;
+        }
+        .drag.w {
+            top: 25px;
+            left: -1px;
+            cursor: w-resize;
+        }
 
-        .scale.rt {
-            top: -1px;
+        .drag.rt {
+            top: -10px;
+            left: 25px;
             cursor: grab;
         }
 
 </style>
 
-<div class="item">
-    <div class="scale ne"></div>
-    <div class="scale nw"></div>
-    <div class="scale se"></div>
-    <div class="scale sw"></div>
-    <div class="scale rt"></div>
+<div class="itm">
+    <div class="drag nw"></div>
+    <div class="drag n"></div>
+    <div class="drag ne"></div>
+    <div class="drag e"></div>
+    <div class="drag se"></div>
+    <div class="drag s"></div>
+    <div class="drag sw"></div>
+    <div class="drag w"></div>
+    <div class="drag rt"></div>
 
-    <img src="~/img/3.jpg" class="item">
+    <img src="~/img/3.jpg" class="itm">
 
 </div>
 
+ 
 <script>
 
-    const el = document.querySelector(".item");
+    const el = document.querySelector(".itm");
 
     let isResizing = false;
 
@@ -79,7 +112,7 @@
 
 
         function mousemove(e) {
-            if (!isResizing) {
+            if (isResizing) return false;
 
                 let newX = prevX - e.clientX;
                 let newY = prevY - e.clientY;
@@ -91,7 +124,6 @@
 
                 prevX = e.clientX;
                 prevY = e.clientY;
-            }
         }
 
         function mouseup() {
@@ -100,43 +132,61 @@
         }
     }
 
-    const scaletool = document.querySelectorAll('.scale');
+    const dragtool = document.querySelectorAll('.drag');
 
-    let currentscale;
+    let currentdrag;
 
-    for (let scale of scaletool) {
-        scale.addEventListener("mousedown", mousedown);
+    for (let drag of dragtool) {
+        drag.addEventListener("mousedown", mousedown);
 
         function mousedown(e) {
-            currentscale = e.target;
+            currentdrag = e.target;
             isResizing = true;
 
             let prevX = e.clientX;
             let prevY = e.clientY;
+            let scaleW = e.width
+            let scaleH = e.height
+            let scaleC = scaleW / scaleH;
 
             window.addEventListener("mousemove", mousemove);
             window.addEventListener("mouseup", mouseup);
 
             function mousemove(e) {
                 const rect = el.getBoundingClientRect();
+                let dX = prevX - e.clientX
+                let dY = prevY - e.clientY
 
-                if (currentscale.classList.contains("se")) {
-                    el.style.width = rect.width - (prevX - e.clientX) + "px";
-                    el.style.height = rect.height - (prevY - e.clientY) + "px";
-                } else if (currentscale.classList.contains("sw")) {
-                    el.style.width = rect.width + (prevX - e.clientX) + "px";
-                    el.style.height = rect.height - (prevY - e.clientY) + "px";
-                    el.style.left = rect.left - (prevX - e.clientX) + "px";
-                } else if (currentscale.classList.contains("ne")) {
-                    el.style.width = rect.width - (prevX - e.clientX) + "px";
-                    el.style.height = rect.height + (prevY - e.clientY) + "px";
-                    el.style.top = rect.top - (prevY - e.clientY) + "px";
-                } else {
-                    el.style.width = rect.width + (prevX - e.clientX) + "px";
-                    el.style.height = rect.height + (prevY - e.clientY) + "px";
-                    el.style.top = rect.top - (prevY - e.clientY) + "px";
-                    el.style.left = rect.left - (prevX - e.clientX) + "px";
+
+          
+
+                if (currentdrag.classList.contains("se")) {
+
+                    dX = (scaleW * dY) / scaleH;
+
+                    } 
+               
+
+                if (currentdrag.classList.contains("nw") || currentdrag.classList.contains("n") || currentdrag.classList.contains("ne")) {
+                    el.style.height = rect.height + dY + "px";
+                    el.style.top = rect.top - dY + "px";
                 }
+
+                if (currentdrag.classList.contains('ne') || currentdrag.classList.contains('e') || currentdrag.classList.contains('se')) {
+                    el.style.width = rect.width - dX + "px";
+                }
+
+                if (currentdrag.classList.contains("se") || currentdrag.classList.contains("s") || currentdrag.classList.contains("sw")) {
+                    el.style.height = rect.height - dY + "px";
+                }
+
+    
+                if (currentdrag.classList.contains("sw") || currentdrag.classList.contains("w") || currentdrag.classList.contains("nw"))    {
+                    el.style.width = rect.width + dX + "px";
+                    el.style.left = rect.left - dX + "px";
+                }
+
+ 
 
                 prevX = e.clientX;
                 prevY = e.clientY;
