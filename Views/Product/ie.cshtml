@@ -15,9 +15,9 @@
         cursor: move;
     }
     .image01 {
-        height: 30px;
-        width: 30px;
-        object-fit:inherit;
+        height: 100%;
+        width: 100%;
+/*        object-fit:inherit;*/
         transform: rotate(0deg);
     }
 
@@ -90,7 +90,7 @@
     <div class="drag w"></div>
     <div class="drag rt"></div>
 
-    <img src="~/img/3.jpg" class="itm">
+    <img src="~/img/3.jpg" class="image01">
 
 </div>
 
@@ -114,16 +114,16 @@
         function mousemove(e) {
             if (isResizing) return false;
 
-                let newX = prevX - e.clientX;
-                let newY = prevY - e.clientY;
+            let newX = prevX - e.clientX;
+            let newY = prevY - e.clientY;
 
-                const rect = el.getBoundingClientRect();
+            const rect = el.getBoundingClientRect();
 
-                el.style.left = rect.left - newX + "px";
-                el.style.top = rect.top - newY + "px";
+            el.style.left = rect.left - newX + "px";
+            el.style.top = rect.top - newY + "px";
 
-                prevX = e.clientX;
-                prevY = e.clientY;
+            prevX = e.clientX;
+            prevY = e.clientY;
         }
 
         function mouseup() {
@@ -145,9 +145,8 @@
 
             let prevX = e.clientX;
             let prevY = e.clientY;
-            let scaleW = e.width
-            let scaleH = e.height
-            let scaleC = scaleW / scaleH;
+            let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
+
 
             window.addEventListener("mousemove", mousemove);
             window.addEventListener("mouseup", mouseup);
@@ -158,14 +157,13 @@
                 let dY = prevY - e.clientY
 
 
-          
+
 
                 if (currentdrag.classList.contains("se")) {
+                    dX = scaleC * dY;
+                    console.log(" rect.width" + rect.width + " scaleC:" + scaleC + " dX:" + dX + " dY:" + dY);
+                }
 
-                    dX = (scaleW * dY) / scaleH;
-
-                    } 
-               
 
                 if (currentdrag.classList.contains("nw") || currentdrag.classList.contains("n") || currentdrag.classList.contains("ne")) {
                     el.style.height = rect.height + dY + "px";
@@ -180,13 +178,13 @@
                     el.style.height = rect.height - dY + "px";
                 }
 
-    
-                if (currentdrag.classList.contains("sw") || currentdrag.classList.contains("w") || currentdrag.classList.contains("nw"))    {
+
+                if (currentdrag.classList.contains("sw") || currentdrag.classList.contains("w") || currentdrag.classList.contains("nw")) {
                     el.style.width = rect.width + dX + "px";
                     el.style.left = rect.left - dX + "px";
                 }
 
- 
+
 
                 prevX = e.clientX;
                 prevY = e.clientY;
@@ -201,3 +199,4 @@
     }
 
 </script>
+
