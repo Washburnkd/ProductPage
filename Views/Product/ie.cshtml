@@ -13,12 +13,36 @@
         background-color: gold;
         object-fit:contain;
         cursor: move;
+
+    -webkit-user-drag: none; 
+      -khtml-user-drag: none; 
+      -moz-user-drag: none; 
+      -o-user-drag: none; 
+      user-drag: none; 
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
     }
     .image01 {
         height: 100%;
         width: 100%;
 /*        object-fit:inherit;*/
         transform: rotate(0deg);
+    }
+
+    img { 
+      -webkit-user-drag: none; 
+      -khtml-user-drag: none; 
+      -moz-user-drag: none; 
+      -o-user-drag: none; 
+      user-drag: none; 
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
     }
 
     .drag {
@@ -37,7 +61,7 @@
         }
         .drag.n {
             top: -1px;
-            left: 25px;
+            left: 50%;
             cursor: n-resize;
         }
         .drag.ne {
@@ -46,7 +70,7 @@
             cursor: ne-resize;
         }
         .drag.e {
-            top: 25px;
+            top: 50%;
             right: -1px;
             cursor: e-resize;
         }
@@ -57,7 +81,7 @@
         }
         .drag.s {
             bottom: -1px;
-            left: 25px;
+            left: 50%;
             cursor: s-resize;
         }
         .drag.sw {
@@ -66,14 +90,14 @@
             cursor: sw-resize;
         }
         .drag.w {
-            top: 25px;
+            top: 50%;
             left: -1px;
             cursor: w-resize;
         }
 
         .drag.rt {
             top: -10px;
-            left: 25px;
+            left: 50%;
             cursor: grab;
         }
 
