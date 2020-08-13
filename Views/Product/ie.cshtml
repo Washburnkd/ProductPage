@@ -7,29 +7,29 @@
 
 <style>
     .itm {
-        height: 50px;
-        width: 50px;
+        height: 100px;
+        width: 100px;
         position: absolute;
-        background-color: gold;
-        object-fit:contain;
+        background-color: none;
+        object-fit: contain;
         cursor: move;
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
 
-    -webkit-user-drag: none; 
-      -khtml-user-drag: none; 
-      -moz-user-drag: none; 
-      -o-user-drag: none; 
-      user-drag: none; 
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -o-user-select: none;
-      user-select: none;
     }
     .image01 {
         height: 100%;
         width: 100%;
-/*        object-fit:inherit;*/
-        transform: rotate(0deg);
+        /*        object-fit:inherit;*/
+        transform: rotate(60deg);
     }
 
     img { 
@@ -47,58 +47,81 @@
 
     .drag {
         position: absolute;
-        width: 5px;
-        height: 5px;
-        border-radius: 3px;
-        background-color: dodgerblue;
+        width: 7px;
+        height: 7px;
+        border: thin;
+        background-color: none;
         z-index: 2;
+        border-style: solid;
+        border-color: cornflowerblue;
     }
 
         .drag.nw {
             top: -1px;
             left: -1px;
             cursor: nw-resize;
+            border-bottom-style: none;
+            border-right-style: none;
         }
         .drag.n {
             top: -1px;
             left: 50%;
             cursor: n-resize;
+            border-bottom-style: none;
+            border-right-style: none;
+            border-left-style: none;
         }
         .drag.ne {
             top: -1px;
             right: -1px;
             cursor: ne-resize;
+            border-bottom-style: none;
+            border-left-style: none;
         }
         .drag.e {
             top: 50%;
             right: -1px;
             cursor: e-resize;
+            border-top-style: none;
+            border-bottom-style: none;
+            border-left-style: none;
         }
         .drag.se {
             bottom: -1px;
             right: -1px;
             cursor: se-resize;
+            border-top-style: none;
+            border-left-style: none;
         }
         .drag.s {
             bottom: -1px;
             left: 50%;
             cursor: s-resize;
+            border-top-style: none;
+            border-right-style: none;
+            border-left-style: none;
         }
         .drag.sw {
             bottom: -1px;
             left: -1px;
             cursor: sw-resize;
+            border-top-style: none;
+            border-right-style: none;
         }
         .drag.w {
             top: 50%;
             left: -1px;
             cursor: w-resize;
+            border-top-style: none;
+            border-bottom-style: none;
+            border-right-style: none;
         }
 
         .drag.rt {
-            top: -10px;
+            top: -20px;
             left: 50%;
             cursor: grab;
+            border-radius: 7px;
         }
 
 </style>
@@ -179,13 +202,16 @@
                 const rect = el.getBoundingClientRect();
                 let dX = prevX - e.clientX
                 let dY = prevY - e.clientY
+                let dXs = scaleC * dY
+                let dYs = dX / scaleC
 
 
-
+                console.log(" dX:" + dX + " dYs:" + dYs + "       dY:" + dY + " dXs" + dXs);
 
                 if (currentdrag.classList.contains("se")) {
-                    dX = scaleC * dY;
-                    console.log(" rect.width" + rect.width + " scaleC:" + scaleC + " dX:" + dX + " dY:" + dY);
+
+                    dX = dXs;
+
                 }
 
 
