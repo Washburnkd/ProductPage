@@ -129,8 +129,10 @@
             left: 50%;
             cursor: grab;
             border-radius: 5px;
-            background-color: cornflowerblue;
-            border-style: none;
+            background-color: none;
+            border: double;
+            border-color: cornflowerblue;
+            border-bottom-style: none;
         }
 
 </style>
@@ -144,10 +146,10 @@
     <div class="drag s"></div>
     <div class="drag sw"></div>
     <div class="drag w"></div>
-    <div class="drag rt"></div>
     <div class="drag sc"></div>
+    <div class="drag rt"></div>
 
-    <img src="~/img/3.jpg" class="image01">
+    <img src="~/img/grid.jpg" class="image01">
 
 </div>
 
@@ -155,8 +157,10 @@
 <script>
 
     const el = document.querySelector(".itm");
+    const elImg = document.querySelector(".image01");
 
     let isResizing = false;
+    let elAngle = 0;
 
     el.addEventListener("mousedown", mousedown);
 
@@ -170,17 +174,18 @@
 
         function mousemove(e) {
             if (isResizing) return false;
+            el.style.transform = 'rotate(' + 0 + 'deg)';
 
             let newX = prevX - e.clientX;
             let newY = prevY - e.clientY;
 
             const rect = el.getBoundingClientRect();
-
             el.style.left = rect.left - newX + "px";
             el.style.top = rect.top - newY + "px";
-
             prevX = e.clientX;
             prevY = e.clientY;
+            el.style.transform = 'rotate(' + elAngle + 'deg)';
+
         }
 
         function mouseup() {
@@ -209,17 +214,31 @@
             window.addEventListener("mouseup", mouseup);
 
             function mousemove(e) {
+                el.style.transform = 'rotate(' + 0 + 'deg)';
                 const rect = el.getBoundingClientRect();
                 let dX = prevX - e.clientX
                 let dY = prevY - e.clientY
-
-
 
 
                 console.log(" dX:" + dX + "       dY:" + dY );
 
                 if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
 
+                if (currentdrag.classList.contains('rt')) {
+
+                    elAngle = elAngle - dX;
+                    if (elAngle > 360) { elAngle = elAngle - 360; }
+                    if (elAngle < 0) { elAngle = elAngle + 360; }
+                    el.style.transform = 'rotate(' + elAngle + 'deg)';
+                    console.log(" elAngle:" + elAngle);
+
+                      //elImg.style.transform = 'rotate(45deg)';
+                     //let rotateAngle = el.getAttribute("rotangle");
+                    //el.style.transform = 'rotate(' + (-dX) + 'deg)';
+                   //el.setAttribute("rotangle", "" + rotateAngle);
+                    
+
+                }
 
                 if (currentdrag.classList.contains('nw') || currentdrag.classList.contains('n') || currentdrag.classList.contains('ne')) {
                     el.style.height = rect.height + dY + "px";
@@ -242,6 +261,7 @@
 
                 prevX = e.clientX;
                 prevY = e.clientY;
+                el.style.transform = 'rotate(' + elAngle + 'deg)';
             }
 
             function mouseup() {
