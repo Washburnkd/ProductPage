@@ -29,7 +29,7 @@
         height: 100%;
         width: 100%;
         /*        object-fit:inherit;*/
-        transform: rotate(60deg);
+        transform: rotate(0deg);
     }
 
     img { 
@@ -47,8 +47,8 @@
 
     .drag {
         position: absolute;
-        width: 7px;
-        height: 7px;
+        width: 5px;
+        height: 5px;
         border: thin;
         background-color: none;
         z-index: 2;
@@ -116,12 +116,21 @@
             border-bottom-style: none;
             border-right-style: none;
         }
-
+        .drag.sc {
+            bottom: 8px;
+            right: 8px;
+            cursor: grab;
+            border-radius: 5px;
+            background-color: tomato;
+            border-style: none;
+        }
         .drag.rt {
-            top: -20px;
+            top: -15px;
             left: 50%;
             cursor: grab;
-            border-radius: 7px;
+            border-radius: 5px;
+            background-color: cornflowerblue;
+            border-style: none;
         }
 
 </style>
@@ -136,6 +145,7 @@
     <div class="drag sw"></div>
     <div class="drag w"></div>
     <div class="drag rt"></div>
+    <div class="drag sc"></div>
 
     <img src="~/img/3.jpg" class="image01">
 
@@ -192,7 +202,7 @@
 
             let prevX = e.clientX;
             let prevY = e.clientY;
-            let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
+            let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;          
 
 
             window.addEventListener("mousemove", mousemove);
@@ -202,39 +212,33 @@
                 const rect = el.getBoundingClientRect();
                 let dX = prevX - e.clientX
                 let dY = prevY - e.clientY
-                let dXs = scaleC * dY
-                let dYs = dX / scaleC
 
 
-                console.log(" dX:" + dX + " dYs:" + dYs + "       dY:" + dY + " dXs" + dXs);
-
-                if (currentdrag.classList.contains("se")) {
-
-                    dX = dXs;
-
-                }
 
 
-                if (currentdrag.classList.contains("nw") || currentdrag.classList.contains("n") || currentdrag.classList.contains("ne")) {
+                console.log(" dX:" + dX + "       dY:" + dY );
+
+                if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
+
+
+                if (currentdrag.classList.contains('nw') || currentdrag.classList.contains('n') || currentdrag.classList.contains('ne')) {
                     el.style.height = rect.height + dY + "px";
                     el.style.top = rect.top - dY + "px";
                 }
 
-                if (currentdrag.classList.contains('ne') || currentdrag.classList.contains('e') || currentdrag.classList.contains('se')) {
+                if (currentdrag.classList.contains('ne') || currentdrag.classList.contains('e') || currentdrag.classList.contains('se') || currentdrag.classList.contains('sc')) {
                     el.style.width = rect.width - dX + "px";
                 }
 
-                if (currentdrag.classList.contains("se") || currentdrag.classList.contains("s") || currentdrag.classList.contains("sw")) {
+                if (currentdrag.classList.contains('se') || currentdrag.classList.contains('s') || currentdrag.classList.contains('sw') || currentdrag.classList.contains('sc')) {
                     el.style.height = rect.height - dY + "px";
                 }
 
 
-                if (currentdrag.classList.contains("sw") || currentdrag.classList.contains("w") || currentdrag.classList.contains("nw")) {
+                if (currentdrag.classList.contains('sw') || currentdrag.classList.contains('w') || currentdrag.classList.contains('nw')) {
                     el.style.width = rect.width + dX + "px";
                     el.style.left = rect.left - dX + "px";
                 }
-
-
 
                 prevX = e.clientX;
                 prevY = e.clientY;
