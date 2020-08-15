@@ -201,6 +201,14 @@
     for (let drag of dragtool) {
         drag.addEventListener("mousedown", mousedown);
 
+
+        function doubleclick(e) {
+            elAngle = 0;
+
+
+        }
+
+
         function mousedown(e) {
             currentdrag = e.target;
             isResizing = true;
@@ -218,6 +226,13 @@
                 const rect = el.getBoundingClientRect();
                 let dX = prevX - e.clientX
                 let dY = prevY - e.clientY
+                let rA = elAngle * Math.PI / 180;
+
+                let rX = dX * Math.cos(rA) + dY * Math.sin(rA);
+                let rY = -dX * Math.sin(rA) + dY * Math.cos(rA);
+
+                dX = rX;
+                dY = rY;
 
 
                 console.log(" dX:" + dX + "       dY:" + dY );
@@ -231,11 +246,6 @@
                     if (elAngle < 0) { elAngle = elAngle + 360; }
                     el.style.transform = 'rotate(' + elAngle + 'deg)';
                     console.log(" elAngle:" + elAngle);
-
-                      //elImg.style.transform = 'rotate(45deg)';
-                     //let rotateAngle = el.getAttribute("rotangle");
-                    //el.style.transform = 'rotate(' + (-dX) + 'deg)';
-                   //el.setAttribute("rotangle", "" + rotateAngle);
                     
 
                 }
