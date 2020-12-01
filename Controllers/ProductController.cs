@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Differencing;
 using ProductPage.Data;
 using ProductPage.Models;
-
+using System.IO;
 
 namespace ProductPage.Controllers
 {
@@ -93,11 +93,6 @@ namespace ProductPage.Controllers
             return View("EditItem");
         }
 
-        [HttpGet("ie")]
-        public IActionResult ie()
-        {
-            //var products = _context.Products.Where(m => m.CustomerId == customerId).ToList();
-            return View("ie");
-        }
+        
     }
 }

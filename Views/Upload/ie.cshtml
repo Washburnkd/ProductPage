@@ -6,10 +6,10 @@
 <h1>ie</h1>
 
 
-<form method="Post" action="/ie">
+<form method="post" enctype="multipart/form-data" action="ie">
     
-<input type="file" id="ImageFile name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];"/>
-<input type="submit">Upload</input>
+<input type="file" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];"/>
+<input type="submit" value="Upload" />
     <input type="text" id="FileName" value="" />
 </form>
 
