@@ -14,7 +14,7 @@ namespace ProductPage.Controllers
         public IActionResult ie()
         {
             //var products = _context.Products.Where(m => m.CustomerId == customerId).ToList();
-            return View("testUpload");
+            return View("ie");
         }
 
         [HttpPost("ie")]
