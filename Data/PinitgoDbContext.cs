@@ -9,6 +9,7 @@ namespace ProductPage.Data
     public class PinitgoDbContext: DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Upload> Uploads { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

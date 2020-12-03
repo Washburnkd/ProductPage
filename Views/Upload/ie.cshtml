@@ -1,17 +1,41 @@
-﻿
+﻿@using ProductPage.Data
+
 @{
     ViewData["Title"] = "ie";
+    var uploads = Model as List<Upload>;
 }
+
+<div class="upload-list">
+
+    @foreach (var u in uploads)
+    {
+        <div class="card" style="width: 18rem;">
+            @if (!string.IsNullOrEmpty(u.Name))
+            {
+                <img src="~/img/@u.Name" class="card-img-top" alt="...">
+            }
+            else
+            {
+                <img src="..." class="card-img-top" alt="...">
+            }
+            
+
+        </div>
+    }
+
+</div>
 
 <h1>ie</h1>
 
 
 <form method="post" enctype="multipart/form-data" action="ie">
-    
-<input type="file" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];"/>
-<input type="submit" value="Upload" />
+
+    <input type="file" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
+    <input type="submit" value="Upload" />
     <input type="text" id="FileName" value="" />
 </form>
+
+
 
 <style>
     .itm {
@@ -31,8 +55,8 @@
         -moz-user-select: none;
         -o-user-select: none;
         user-select: none;
-
     }
+
     .image01 {
         height: 100%;
         width: 100%;
@@ -40,17 +64,17 @@
         transform: rotate(0deg);
     }
 
-    img { 
-      -webkit-user-drag: none; 
-      -khtml-user-drag: none; 
-      -moz-user-drag: none; 
-      -o-user-drag: none; 
-      user-drag: none; 
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -o-user-select: none;
-      user-select: none;
+    img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
     }
 
     .drag {
@@ -71,6 +95,7 @@
             border-bottom-style: none;
             border-right-style: none;
         }
+
         .drag.n {
             top: -1px;
             left: 50%;
@@ -79,6 +104,7 @@
             border-right-style: none;
             border-left-style: none;
         }
+
         .drag.ne {
             top: -1px;
             right: -1px;
@@ -86,6 +112,7 @@
             border-bottom-style: none;
             border-left-style: none;
         }
+
         .drag.e {
             top: 50%;
             right: -1px;
@@ -94,6 +121,7 @@
             border-bottom-style: none;
             border-left-style: none;
         }
+
         .drag.se {
             bottom: -1px;
             right: -1px;
@@ -101,6 +129,7 @@
             border-top-style: none;
             border-left-style: none;
         }
+
         .drag.s {
             bottom: -1px;
             left: 50%;
@@ -109,6 +138,7 @@
             border-right-style: none;
             border-left-style: none;
         }
+
         .drag.sw {
             bottom: -1px;
             left: -1px;
@@ -116,6 +146,7 @@
             border-top-style: none;
             border-right-style: none;
         }
+
         .drag.w {
             top: 50%;
             left: -1px;
@@ -124,6 +155,7 @@
             border-bottom-style: none;
             border-right-style: none;
         }
+
         .drag.sc {
             bottom: 8px;
             right: 8px;
@@ -132,6 +164,7 @@
             background-color: tomato;
             border-style: none;
         }
+
         .drag.rt {
             top: -15px;
             left: 50%;
@@ -142,7 +175,6 @@
             border-color: cornflowerblue;
             border-bottom-style: none;
         }
-
 </style>
 
 <div class="itm">
@@ -161,7 +193,7 @@
 
 </div>
 
- 
+
 <script>
 
     const el = document.querySelector(".itm");
@@ -223,7 +255,7 @@
 
             let prevX = e.clientX;
             let prevY = e.clientY;
-            let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;          
+            let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
 
 
             window.addEventListener("mousemove", mousemove);
@@ -243,7 +275,7 @@
                 dY = rY;
 
 
-                console.log(" dX:" + dX + "       dY:" + dY );
+                console.log(" dX:" + dX + "       dY:" + dY);
 
                 if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
 
@@ -254,7 +286,7 @@
                     if (elAngle < 0) { elAngle = elAngle + 360; }
                     el.style.transform = 'rotate(' + elAngle + 'deg)';
                     console.log(" elAngle:" + elAngle);
-                    
+
 
                 }
 
