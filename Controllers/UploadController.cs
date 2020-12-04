@@ -31,7 +31,8 @@ namespace ProductPage.Controllers
         public IActionResult ie()
         {
             //var products = _context.Products.Where(m => m.CustomerId == customerId).ToList();
-            return View("ie");
+            var uploads = _context.Uploads.ToList();
+            return View("ie", uploads);
         }
 
         [HttpGet("uploads")]
@@ -52,9 +53,18 @@ namespace ProductPage.Controllers
                 {
                     await ImageFile.CopyToAsync(fileStream);
                 }
-                return View("ie");
+                var u = new Upload();
+                u.Name = ImageFile.FileName;
+                u.Extention = ImageFile.FileName.Split('.').Last();
+                _context.Uploads.Add(u);
+                await _context.SaveChangesAsync();
+                //var found = _context.Uploads.Where(x => x.UID == u.UID).FirstOrDefault();
+                //_context.Uploads.Remove(found);
+                //await _context.SaveChangesAsync();
+                //System.IO.File.Delete(filePath);
+                return Redirect("ie");
             }
-            return View("ie");
+            return Redirect("ie");
         }
 
         [HttpPost("upload/files")]
