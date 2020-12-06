@@ -10,6 +10,8 @@ namespace ProductPage.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Upload> Uploads { get; set; }
+        public DbSet<Xform> Xforms { get; set; }
+        //public DbSet<XformSelection> XformSelections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

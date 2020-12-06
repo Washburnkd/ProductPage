@@ -12,10 +12,7 @@ namespace ProductPage.Data
     {
         [Key]
         public int UID { get; set; }
-        public string Extention { get; set; }
         public int AID { get; set; }
         public string Name { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
     }
 }

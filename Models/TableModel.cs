@@ -7,10 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProductPage.Models
 {
-    public class UploadModel
+    public class TableModel
     {
-        public int UID { get; set; }
-        public int AID { get; set; }
-        public string Name { get; set; }
+        //public IQueryable<UploadData> UploadData { get; set; }
+        //public IQueryable<XformData> XformData { get; set; }
     }
 }

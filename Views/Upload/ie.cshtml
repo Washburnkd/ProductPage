@@ -3,27 +3,20 @@
 @{
     ViewData["Title"] = "ie";
     var uploads = Model as List<Upload>;
+    //var xforms = Model as List<Xform>;
+    /*var uploads = */
+    //struct contextVar
+    //{
+    //    int x;
+
+    //    var uploads = Model as List<Upload>;
+    //    var xforms = Model as List<Xform>;
+    //};
+    //var xforms = Model as List<Xform>;
+    //var xforms = Model as List<Xform>;
 }
-
-<div class="upload-list">
-
-    @foreach (var u in uploads)
-    {
-        <div class="card" style="width: 18rem;">
-            @if (!string.IsNullOrEmpty(u.Name))
-            {
-                <img src="~/img/@u.Name" class="card-img-top" alt="...">
-            }
-            else
-            {
-                <img src="..." class="card-img-top" alt="...">
-            }
-            
-
-        </div>
-    }
-
-</div>
+@{
+}
 
 <h1>ie</h1>
 
@@ -175,23 +168,108 @@
             border-color: cornflowerblue;
             border-bottom-style: none;
         }
+
+    .canvas {
+        border: 3px solid dodgerblue;
+        height: 20rem;
+        width: 20rem;
+        float: left;
+    }
+
+    .upload-list {
+        float: right;
+    }
+
+    .xform-thumbnail {
+        width: 100px;
+    }
 </style>
 
-<div class="itm">
-    <div class="drag nw"></div>
-    <div class="drag n"></div>
-    <div class="drag ne"></div>
-    <div class="drag e"></div>
-    <div class="drag se"></div>
-    <div class="drag s"></div>
-    <div class="drag sw"></div>
-    <div class="drag w"></div>
-    <div class="drag sc"></div>
-    <div class="drag rt"></div>
+<div class="upload-list">
+    @foreach (var u in uploads)
+    {
+        <div class="card" style="width: 18rem;">
+            @if (!string.IsNullOrEmpty(u.Name))
+            {
+                <img src="~/img/@u.Name" class="xform-thumbnail" alt="...">
+            }
+            else
+            {
+                <img src="..." class="xform-thumbnail" alt="...">
+            }
 
-    <img src="~/img/grid.jpg" class="image01">
+
+        </div>
+    }
 
 </div>
+
+
+
+@*@foreach (UploadModel upload in Model.UploadModel)
+{
+    <tr>
+        <td>@upload.Name</td>
+    </tr>
+}*@
+
+@*<div class="xform-list">
+        @foreach (var x in xforms)
+        {
+            <div class="card" style="width: 18rem;">
+                @if (!string.IsNullOrEmpty(x.XformName))
+                {
+                    <img src="~/img/@x.XformName" class="card-img-top" alt="...">
+                }
+                else
+                {
+                    <img src="..." class="card-img-top" alt="...">
+                }
+
+
+            </div>
+        }
+
+    </div>*@
+
+
+<div class="canvas">
+    <div class="itm">
+        <div class="drag nw"></div>
+        <div class="drag n"></div>
+        <div class="drag ne"></div>
+        <div class="drag e"></div>
+        <div class="drag se"></div>
+        <div class="drag s"></div>
+        <div class="drag sw"></div>
+        <div class="drag w"></div>
+        <div class="drag sc"></div>
+        <div class="drag rt"></div>
+
+        <img src="~/img/grid.jpg" class="image01">
+
+    </div>
+</div>
+
+@*<div class="xform-list">
+
+        @foreach (var x in xforms)
+        {
+            <div class="card" style="width: 18rem;">
+                @if (!string.IsNullOrEmpty(x.XformName))
+                {
+                    <p>x.XformName</p>
+                }
+                else
+                {
+                    <p>Unnamed</p>
+                }
+
+
+            </div>
+        }
+
+    </div>*@
 
 
 <script>

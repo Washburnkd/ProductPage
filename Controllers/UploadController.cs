@@ -15,6 +15,12 @@ namespace ProductPage.Controllers
     {
         private PinitgoDbContext _context { get; set; }
         private List<UploadModel> _uploads { get; set; }
+        private List<XformModel> _xforms { get; set; }
+
+        struct allTables
+        {
+
+        }
 
         public UploadController(PinitgoDbContext context)
         {
@@ -27,12 +33,18 @@ namespace ProductPage.Controllers
             return View(_uploads);
         }
 
+
+
         [HttpGet("ie")]
         public IActionResult ie()
         {
-            //var products = _context.Products.Where(m => m.CustomerId == customerId).ToList();
             var uploads = _context.Uploads.ToList();
             return View("ie", uploads);
+            //var products = _context.Products.Where(m => m.CustomerId == customerId).ToList();
+            //List<string> allTables = new List<string>();
+            //allTables.Add(uploads.ToString());
+
+
         }
 
         [HttpGet("uploads")]
@@ -55,7 +67,7 @@ namespace ProductPage.Controllers
                 }
                 var u = new Upload();
                 u.Name = ImageFile.FileName;
-                u.Extention = ImageFile.FileName.Split('.').Last();
+                //u.Extention = ImageFile.FileName.Split('.').Last();
                 _context.Uploads.Add(u);
                 await _context.SaveChangesAsync();
                 //var found = _context.Uploads.Where(x => x.UID == u.UID).FirstOrDefault();
@@ -70,7 +82,7 @@ namespace ProductPage.Controllers
         [HttpPost("upload/files")]
         public async Task<IActionResult> uploadFiles(IFormFile[] files)
         {
-            foreach(var ImageFile in files)
+            foreach (var ImageFile in files)
             {
                 if (ImageFile != null && ImageFile.Length > 0)
                 {
