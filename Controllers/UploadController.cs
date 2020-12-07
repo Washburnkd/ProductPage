@@ -8,6 +8,7 @@ using System.IO;
 using ProductPage.Data;
 using ProductPage.Models;
 using Microsoft.CodeAnalysis.Differencing;
+using ProductPage.Repository.Service;
 
 namespace ProductPage.Controllers
 {
@@ -30,6 +31,7 @@ namespace ProductPage.Controllers
         public IActionResult Index()
         {
 
+            
             return View(_uploads);
         }
 
@@ -38,14 +40,22 @@ namespace ProductPage.Controllers
         [HttpGet("ie")]
         public IActionResult ie()
         {
-            var uploads = _context.Uploads.ToList();
-            return View("ie", uploads);
+         var offer=   UploadingImages.GetUploadImages(1);
+             var uploads = _context.Uploads.ToList();
+            return View("ie", offer);
             //var products = _context.Products.Where(m => m.CustomerId == customerId).ToList();
             //List<string> allTables = new List<string>();
             //allTables.Add(uploads.ToString());
 
 
         }
+        [HttpPost]
+        public IActionResult UpdateWidth(int Xid)
+        {
+            var offer = UploadingImages.UpdateWidth(Xid);
+            return Json(true);
+        }
+
 
         [HttpGet("uploads")]
         public IActionResult GetUploads()
@@ -67,9 +77,12 @@ namespace ProductPage.Controllers
                 }
                 var u = new Upload();
                 u.Name = ImageFile.FileName;
+                u.AID = 1;
                 //u.Extention = ImageFile.FileName.Split('.').Last();
-                _context.Uploads.Add(u);
-                await _context.SaveChangesAsync();
+                UploadingImages.UploadImages(u);
+                //_context.Uploads.Add(u);
+                //await _context.SaveChangesAsync();
+
                 //var found = _context.Uploads.Where(x => x.UID == u.UID).FirstOrDefault();
                 //_context.Uploads.Remove(found);
                 //await _context.SaveChangesAsync();

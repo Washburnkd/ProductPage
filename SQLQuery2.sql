@@ -1,0 +1,1 @@
+﻿select Width,* from [40 Xform] where XID=1

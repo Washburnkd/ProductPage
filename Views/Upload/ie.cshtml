@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "ie";
-    var uploads = Model as List<Upload>;
+    var uploads = Model as OfferModel;
     //var xforms = Model as List<Xform>;
     /*var uploads = */
     //struct contextVar
@@ -186,7 +186,7 @@
 </style>
 
 <div class="upload-list">
-    @foreach (var u in uploads)
+    @foreach (var u in uploads.Uploadlist)
     {
         <div class="card" style="width: 18rem;">
             @if (!string.IsNullOrEmpty(u.Name))
@@ -204,14 +204,34 @@
 
 </div>
 
+<div class="upload-list">
+    @foreach (var u in uploads.Formlist)
+    {
+        <div class="card frmimg" data-xid="@u.XID" data-width="@u.Width" style="width: 18rem;">
+            @if (u.UID != null && u.UID > 0)
+            {
+                <img src="~/img/@uploads.Uploadlist.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
+            }
+            else
+            {
+                <img src="..." class="xform-thumbnail" alt="...">
+            }
 
+            @uploads.Uploadlist.FirstOrDefault(x => x.UID == u.UID).Name
+            @u.Width
+
+
+        </div>
+    }
+
+</div>
 
 @*@foreach (UploadModel upload in Model.UploadModel)
-{
-    <tr>
-        <td>@upload.Name</td>
-    </tr>
-}*@
+    {
+        <tr>
+            <td>@upload.Name</td>
+        </tr>
+    }*@
 
 @*<div class="xform-list">
         @foreach (var x in xforms)
@@ -271,7 +291,7 @@
 
     </div>*@
 
-
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
 
     const el = document.querySelector(".itm");
@@ -399,6 +419,31 @@
             }
         }
     }
+
+</script>
+<script>
+    $(document).ready(function () {
+        //function will be called on button click having id btnsave
+        $(".frmimg").click(function () {
+            var Xid = $(this).data("xid");
+            var width = $(this).data("width");
+            $.ajax(
+                {
+                    type: "POST", //HTTP POST Method
+                    url: "Upload/UpdateWidth", // Controller/View
+                    data: { //Passing data
+                        Xid: Xid
+                    //    City: $("#txtAddress").val(),
+                    //    Address: $("#txtcity").val()
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+
+                });
+
+        });
+    });
 
 </script>
 

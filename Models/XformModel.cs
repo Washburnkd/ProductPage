@@ -11,6 +11,7 @@ namespace ProductPage.Models
     {
         public int XID { get; set; }
         public int OID { get; set; }
+        public int UID { get; set; }
         public int TblType { get; set; }
         public int XSID { get; set; }
         public string XformName { get; set; }
