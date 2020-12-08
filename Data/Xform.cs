@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace ProductPage.Data
 {
-    [Table("40 XForm")]
+    [Table("50 XForm")]
     public class XForm
     {
         [Key]
         public int XID { get; set; }
+        public int AID { get; set; }
         public int OID { get; set; }
         public string XFormName { get; set; }
         public int UID { get; set; }

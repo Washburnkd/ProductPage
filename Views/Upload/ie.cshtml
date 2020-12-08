@@ -184,7 +184,7 @@
         width: 100px;
     }
 
-    #bob {
+    /*    #bob {
         color:red;
     }
 
@@ -196,84 +196,95 @@
     .xform-list > [data-xid] {
         color:green;
         background-color:pink;
-    }
+    }*/
 </style>
 
 <div>
     <a href="#" id="bob" onclick="saveXForms()">SAVE BUTTON</a>
 </div>
-<div class="upload-list">
-    @foreach (var u in offer.Uploads)
-    {
-        <div class="card" style="width: 18rem;">
-            @if (!string.IsNullOrEmpty(u.Name))
-            {
-                <img src="~/img/@u.Name" class="xform-thumbnail" alt="...">
-            }
-            else
-            {
-                <img src="..." class="xform-thumbnail" alt="...">
-            }
-
-
-        </div>
-    }
-
-</div>
-
-<div class="xform-list">
-    @foreach (var u in offer.XForms)
-    {
-        <div class="card frmimg" data-xid="@u.XID" data-height="@u.Height" data-top="@u.Top" data-left="@u.Left" 
-             data-width="@u.Width" style="width: 18rem;" onclick="incrementHeight(this)">
-            @if (u.UID != null && u.UID > 0)
-            {
-                <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
-                @offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name
-
-        <span style="margin-left:10px;">w:@u.Width</span>
-        <span style="margin-left:10px;">h:@u.Height</span>
-            }
-            else
-            {
-                <img src="..." class="xform-thumbnail" alt="...">
-            }
-        </div>
-    }
-
-</div>
-
-
-
-<div class="selection-list">
-    @foreach (var u in offer.Selections)
-    {
-        <div class="card frmimg" data-sid="@u.SID" style="width: 18rem;">
-
-
-            @*@uploads.UploadList.FirstOrDefault(x => x.UID == u.UID).Name*@
-            @u.Option
-
-
-        </div>
-    }
-
-</div>
-
-<div class="xformselection-list">
-        @foreach (var u in offer.XFormSelections)
+<div>
+    <div class="upload-list">
+        @foreach (var u in offer.Uploads)
         {
-            <div class="card frmimg" data-xid="@u.XID" style="width: 18rem;">
-
-
-                @offer.XForms.FirstOrDefault(x => x.XID == u.XID).XFormName
-                @u.SelectionSet
+            <div class="card" style="width: 18rem;" draggable="true">
+                @if (!string.IsNullOrEmpty(u.Name))
+                {
+                    <img src="~/img/@u.Name" class="xform-thumbnail" alt="...">
+                }
+                else
+                {
+                    <img src="..." class="xform-thumbnail" alt="...">
+                }
 
 
             </div>
         }
 
     </div>
+</div>
+<div class="card frmimg" style="width: 50rem;">
+    <div class="xform-list">
+        @foreach (var u in offer.XForms)
+        {
+            <div class="card frmimg" data-xid="@u.XID" data-height="@u.Height" data-top="@u.Top" data-left="@u.Left"
+                 data-width="@u.Width" style="width: 18rem;" onclick="incrementHeight(this)" draggable="true">
+                @if (u.UID != null && u.UID > 0)
+                {
+                    <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
+                    @offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name
+
+                    <span style="margin-left:10px;">w:@u.Width</span>
+                    <span style="margin-left:10px;">h:@u.Height</span>
+                }
+                else
+                {
+                    <img src="..." class="xform-thumbnail" alt="...">
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+
+<div class="selection-list">
+    @foreach (var s in offer.Selections)
+    {
+    <div class="card frmimg" data-sid="@s.SID" style="width: 18rem;">
+
+
+        @*@uploads.UploadList.FirstOrDefault(x => x.UID == s.UID).Name*@
+        @s.Option
+        <br />
+        @foreach (var o in offer.SelectionOptions)
+        {
+            if (o.SID == s.SID)
+            {
+                @o.OName
+                <br />
+            }
+        }
+
+
+    </div>
+    }
+
+</div>
+
+<div class="xformselection-list">
+    @foreach (var u in offer.XFormSelections)
+    {
+        <div class="card frmimg" data-xid="@u.XID" style="width: 18rem;">
+
+            
+            @offer.XForms.FirstOrDefault(x => x.XID == u.XID).XFormName
+            @u.IID
+
+
+        </div>
+    }
+
+</div>
 
 @*@foreach (UploadModel upload in Model.UploadModel)
     {

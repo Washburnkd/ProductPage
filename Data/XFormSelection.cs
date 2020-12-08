@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProductPage.Data
 {
-    [Table("30 XFormSelection")]
+    [Table("60 XFormSelection")]
     public class XFormSelection
     {
         [Key]
         public int XSID { get; set; }
         public int OID { get; set; }
         public int XID { get; set; }
-        public string SelectionSet { get; set; }
+        public int IID { get; set; }
     }
 }

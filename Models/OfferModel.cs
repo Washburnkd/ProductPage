@@ -9,8 +9,11 @@ namespace ProductPage.Models
     public class OfferModel
     {
         public List<Upload> Uploads { get; set; }
+        public List<Selection> Selections { get; set; }
+        public List<SelectionOption> SelectionOptions { get; set; }
+        public List<OItem> OItems { get; set; }
         public List<XForm> XForms { get; set; }
         public List<XFormSelection> XFormSelections { get; set; }
-        public List<Selection> Selections { get; set; }
+        
     }
 }

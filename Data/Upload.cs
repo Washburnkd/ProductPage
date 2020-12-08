@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProductPage.Data
 {
-    [Table("50 Upload")]
+    [Table("70 Upload")]
     public class Upload
     {
         [Key]

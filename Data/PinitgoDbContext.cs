@@ -14,6 +14,8 @@ namespace ProductPage.Data
         public DbSet<Selection> Selections { get; set; }
         public DbSet<XForm> XForms { get; set; }
         public DbSet<XFormSelection> XFormSelections { get; set; }
+        public DbSet<SelectionOption> SelectionOptions { get; set; }
+        public DbSet<OItem> OItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
