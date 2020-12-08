@@ -1,1 +1,1 @@
-﻿select Width,* from [40 Xform] where XID=1
+﻿select Width,* from [40 XForm] where XID=1

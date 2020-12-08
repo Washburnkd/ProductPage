@@ -52,10 +52,12 @@ namespace ProductPage.Repository.Service
                     DynamicParameters param = new DynamicParameters();
                     param.Add("@Offer", offer);
                     var reader = conn.QueryMultiple("GetImaginator", param, commandType: CommandType.StoredProcedure); // multiple result
-                    model.Uploadlist = reader.Read<UploadModel>().ToList();
-                    model.Formlist = reader.Read<XformModel>().ToList();
-                    model.Selectionlist = reader.Read<SelectionModel>().ToList();
-                   
+                    model.Uploads = reader.Read<Upload>().ToList(); 
+                    model.XForms = reader.Read<XForm>().ToList();
+                    //model.XFormSelectionList = reader.Read<XFormSelectionModel>().ToList();
+                    model.Selections = reader.Read<Selection>().ToList();
+                    
+
                     return model;
                 }
                 catch (Exception ex)

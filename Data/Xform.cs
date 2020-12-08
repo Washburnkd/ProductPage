@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 
 namespace ProductPage.Data
 {
-    [Table("00 Xform")]
-    public class Xform
+    [Table("40 XForm")]
+    public class XForm
     {
         [Key]
         public int XID { get; set; }
         public int OID { get; set; }
-        public int TblType { get; set; }
-        public int XSID { get; set; }
-        public string XformName { get; set; }
-        public float Rotation { get; set; }
+        public string XFormName { get; set; }
+        public int UID { get; set; }
+        public double Rotation { get; set; }
         public int Top { get; set; }
         public int Left { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
     }
 }

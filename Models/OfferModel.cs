@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProductPage.Data;
 
 namespace ProductPage.Models
 {
     public class OfferModel
     {
-        public List<UploadModel> Uploadlist { get; set; }
-        public List<XformModel> Formlist { get; set; }
-        public List<SelectionModel> Selectionlist { get; set; }
+        public List<Upload> Uploads { get; set; }
+        public List<XForm> XForms { get; set; }
+        public List<XFormSelection> XFormSelections { get; set; }
+        public List<Selection> Selections { get; set; }
     }
 }

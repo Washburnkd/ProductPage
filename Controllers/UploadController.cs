@@ -15,8 +15,10 @@ namespace ProductPage.Controllers
     public class UploadController : Controller
     {
         private PinitgoDbContext _context { get; set; }
-        private List<UploadModel> _uploads { get; set; }
-        private List<XformModel> _xforms { get; set; }
+        private ImageService _imageService { get; set; }
+        private OfferService _offerService { get; set; }
+        private List<Upload> _uploads { get; set; }
+        private List<XForm> _xforms { get; set; }
 
         struct allTables
         {
@@ -26,6 +28,8 @@ namespace ProductPage.Controllers
         public UploadController(PinitgoDbContext context)
         {
             _context = context;
+            _imageService = new ImageService(_context);
+            _offerService = new OfferService(_context);
         }
 
         public IActionResult Index()
@@ -40,14 +44,8 @@ namespace ProductPage.Controllers
         [HttpGet("ie")]
         public IActionResult ie()
         {
-         var offer=   UploadingImages.GetUploadImages(1);
-             var uploads = _context.Uploads.ToList();
+            var offer = _offerService.GetOffer(2);
             return View("ie", offer);
-            //var products = _context.Products.Where(m => m.CustomerId == customerId).ToList();
-            //List<string> allTables = new List<string>();
-            //allTables.Add(uploads.ToString());
-
-
         }
         [HttpPost]
         public IActionResult UpdateWidth(int Xid)
@@ -56,6 +54,13 @@ namespace ProductPage.Controllers
             return Json(true);
         }
 
+        [HttpPost("saveoffer")]
+        public IActionResult SaveOffer([FromBody]List<XForm> xforms)
+        {
+            var success = _offerService.SaveXForms(xforms);
+            //do something with this.
+            return Json($"This was received and the result was {success}");
+        }
 
         [HttpGet("uploads")]
         public IActionResult GetUploads()

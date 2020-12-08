@@ -2,18 +2,18 @@
 
 @{
     ViewData["Title"] = "ie";
-    var uploads = Model as OfferModel;
-    //var xforms = Model as List<Xform>;
+    var offer = Model as OfferModel;
+    //var xforms = Model as List<XForm>;
     /*var uploads = */
     //struct contextVar
     //{
     //    int x;
 
     //    var uploads = Model as List<Upload>;
-    //    var xforms = Model as List<Xform>;
+    //    var xforms = Model as List<XForm>;
     //};
-    //var xforms = Model as List<Xform>;
-    //var xforms = Model as List<Xform>;
+    //var xforms = Model as List<XForm>;
+    //var xforms = Model as List<XForm>;
 }
 @{
 }
@@ -183,10 +183,27 @@
     .xform-thumbnail {
         width: 100px;
     }
+
+    #bob {
+        color:red;
+    }
+
+    [data-xid="6"] {
+        color:purple;
+        background-color:yellow;
+    }
+
+    .xform-list > [data-xid] {
+        color:green;
+        background-color:pink;
+    }
 </style>
 
+<div>
+    <a href="#" id="bob" onclick="saveXForms()">SAVE BUTTON</a>
+</div>
 <div class="upload-list">
-    @foreach (var u in uploads.Uploadlist)
+    @foreach (var u in offer.Uploads)
     {
         <div class="card" style="width: 18rem;">
             @if (!string.IsNullOrEmpty(u.Name))
@@ -204,27 +221,59 @@
 
 </div>
 
-<div class="upload-list">
-    @foreach (var u in uploads.Formlist)
+<div class="xform-list">
+    @foreach (var u in offer.XForms)
     {
-        <div class="card frmimg" data-xid="@u.XID" data-width="@u.Width" style="width: 18rem;">
+        <div class="card frmimg" data-xid="@u.XID" data-height="@u.Height" data-top="@u.Top" data-left="@u.Left" 
+             data-width="@u.Width" style="width: 18rem;" onclick="incrementHeight(this)">
             @if (u.UID != null && u.UID > 0)
             {
-                <img src="~/img/@uploads.Uploadlist.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
+                <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
+                @offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name
+
+        <span style="margin-left:10px;">w:@u.Width</span>
+        <span style="margin-left:10px;">h:@u.Height</span>
             }
             else
             {
                 <img src="..." class="xform-thumbnail" alt="...">
             }
+        </div>
+    }
 
-            @uploads.Uploadlist.FirstOrDefault(x => x.UID == u.UID).Name
-            @u.Width
+</div>
+
+
+
+<div class="selection-list">
+    @foreach (var u in offer.Selections)
+    {
+        <div class="card frmimg" data-sid="@u.SID" style="width: 18rem;">
+
+
+            @*@uploads.UploadList.FirstOrDefault(x => x.UID == u.UID).Name*@
+            @u.Option
 
 
         </div>
     }
 
 </div>
+
+<div class="xformselection-list">
+        @foreach (var u in offer.XFormSelections)
+        {
+            <div class="card frmimg" data-xid="@u.XID" style="width: 18rem;">
+
+
+                @offer.XForms.FirstOrDefault(x => x.XID == u.XID).XFormName
+                @u.SelectionSet
+
+
+            </div>
+        }
+
+    </div>
 
 @*@foreach (UploadModel upload in Model.UploadModel)
     {
@@ -237,9 +286,9 @@
         @foreach (var x in xforms)
         {
             <div class="card" style="width: 18rem;">
-                @if (!string.IsNullOrEmpty(x.XformName))
+                @if (!string.IsNullOrEmpty(x.XFormName))
                 {
-                    <img src="~/img/@x.XformName" class="card-img-top" alt="...">
+                    <img src="~/img/@x.XFormName" class="card-img-top" alt="...">
                 }
                 else
                 {
@@ -276,9 +325,9 @@
         @foreach (var x in xforms)
         {
             <div class="card" style="width: 18rem;">
-                @if (!string.IsNullOrEmpty(x.XformName))
+                @if (!string.IsNullOrEmpty(x.XFormName))
                 {
-                    <p>x.XformName</p>
+                    <p>x.XFormName</p>
                 }
                 else
                 {
@@ -422,28 +471,61 @@
 
 </script>
 <script>
-    $(document).ready(function () {
-        //function will be called on button click having id btnsave
-        $(".frmimg").click(function () {
-            var Xid = $(this).data("xid");
-            var width = $(this).data("width");
-            $.ajax(
-                {
-                    type: "POST", //HTTP POST Method
-                    url: "Upload/UpdateWidth", // Controller/View
-                    data: { //Passing data
-                        Xid: Xid
-                    //    City: $("#txtAddress").val(),
-                    //    Address: $("#txtcity").val()
-                    },
-                    success: function () {
-                        location.reload();
-                    }
+    //$(document).ready(function () {
+    //    //function will be called on button click having id btnsave
+    //    $(".frmimg").click(function () {
+    //        var Xid = $(this).data("xid");
+    //        var width = $(this).data("width");
+    //        $.ajax(
+    //            {
+    //                type: "POST", //HTTP POST Method
+    //                url: "Upload/UpdateWidth", // Controller/View
+    //                data: { //Passing data
+    //                    Xid: Xid
+    //                    //    City: $("#txtAddress").val(),
+    //                    //    Address: $("#txtcity").val()
+    //                },
+    //                success: function () {
+    //                    location.reload();
+    //                }
 
-                });
+    //            });
 
+    //    });
+    //});
+
+</script>
+<script type="text/javascript">
+    function incrementHeight(el) {
+        var currHeight = parseInt(el.attributes["data-height"].value);
+        el.attributes["data-height"].value = currHeight + 10;
+        alert(el.attributes["data-height"].value);
+    }
+    function saveXForms() {
+        var xforms = [];
+        document.querySelectorAll('.xform-list > [data-xid]').forEach(x => {
+            var xf = {};
+            xf.xid = parseInt(x.attributes["data-xid"]?.value);
+            xf.top = parseInt(x.attributes["data-top"]?.value);
+            xf.left = parseInt(x.attributes["data-left"]?.value);
+            xf.width = parseInt(x.attributes["data-width"]?.value);
+            xf.height = parseInt(x.attributes["data-height"]?.value);
+            xforms.push(xf);
         });
-    });
+        // console.log(xforms);
+        // console.log(JSON.stringify(xforms));
 
+        fetch("saveoffer", {
+            method: "POST",
+            body: JSON.stringify(xforms),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }).then(resp => resp.json())
+            .then(json => {
+                console.log(json);
+                location.reload();
+            });
+    }
 </script>
 

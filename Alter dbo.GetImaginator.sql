@@ -16,12 +16,28 @@ Begin
 SELECT * from [50 Upload]
 	SELECT * from [10 Offer] o
 
-join [40 Xform] f on o.OID=f.OID
-join [50 Upload] u on u.[UID]=f.[UID]
+join [40 XForm] x on o.OID=x.OID
+join [50 Upload] u on u.[UID]=x.[UID]
 where o.OID=@Offer
 
 SELECT * from [10 Offer] o
 join [20 selection] s on o.OID=s.OID
 where o.OID=@Offer
 
+--SELECT * from [50 Upload]
+--	SELECT * from [10 Offer] o
+
+--join [40 XForm] x on o.OID=x.OID
+--join [50 Upload] u on u.[UID]=x.[UID]
+--where o.OID=@Offer
+
+--SELECT * from [10 Offer] o
+--join [20 selection] s on o.OID=s.OID
+--where o.OID=@Offer
+
+--SELECT * from [40 XForm]
+--	SELECT * from [10 Offer] o
+
+--join [30 XFormSelection] xs on xs.[XID]=x.[XID]
+--where o.OID=@Offer
 End

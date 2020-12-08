@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProductPage.Models;
 
 namespace ProductPage.Data
 {
@@ -10,8 +11,9 @@ namespace ProductPage.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Upload> Uploads { get; set; }
-        public DbSet<Xform> Xforms { get; set; }
-        //public DbSet<XformSelection> XformSelections { get; set; }
+        public DbSet<Selection> Selections { get; set; }
+        public DbSet<XForm> XForms { get; set; }
+        public DbSet<XFormSelection> XFormSelections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

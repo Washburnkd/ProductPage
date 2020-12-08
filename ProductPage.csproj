@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\OfferServices.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Data\NewFile.txt" />
+    <None Remove="Data\XFormSelection" />
+    <None Remove="Services\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
