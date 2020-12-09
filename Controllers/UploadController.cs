@@ -85,8 +85,8 @@ namespace ProductPage.Controllers
                 u.AID = 1;
                 //u.Extention = ImageFile.FileName.Split('.').Last();
                 UploadingImages.UploadImages(u);
-                //_context.Uploads.Add(u);
-                //await _context.SaveChangesAsync();
+                _context.Uploads.Add(u);
+                await _context.SaveChangesAsync();
 
                 //var found = _context.Uploads.Where(x => x.UID == u.UID).FirstOrDefault();
                 //_context.Uploads.Remove(found);

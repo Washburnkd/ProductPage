@@ -13,11 +13,11 @@ ALTER PROCEDURE [dbo].[GetImaginator]
 	@Offer int
 AS
 Begin
-SELECT * from [50 Upload]
+SELECT * from [70 Upload]
 	SELECT * from [10 Offer] o
 
-join [40 XForm] x on o.OID=x.OID
-join [50 Upload] u on u.[UID]=x.[UID]
+join [50 XForm] x on o.OID=x.OID
+join [70 Upload] u on u.[UID]=x.[UID]
 where o.OID=@Offer
 
 SELECT * from [10 Offer] o

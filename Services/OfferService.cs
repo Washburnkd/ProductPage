@@ -38,6 +38,8 @@ namespace ProductPage
                 found.Left = x.Left;
                 found.Width = x.Width;
                 found.Height = x.Height;
+                found.Rotation = x.Rotation;
+                found.Transparency = x.Transparency;
                 _context.XForms.Update(found);
                 _context.SaveChanges();
             }

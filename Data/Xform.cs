@@ -16,10 +16,12 @@ namespace ProductPage.Data
         public int OID { get; set; }
         public string XFormName { get; set; }
         public int UID { get; set; }
-        public double Rotation { get; set; }
         public int Top { get; set; }
         public int Left { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
+        public double Rotation { get; set; }
+        public int Transparency { get; set; }
+        public bool Crop { get; set; }
     }
 }
