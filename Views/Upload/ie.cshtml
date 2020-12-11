@@ -21,18 +21,11 @@
 <h1>ie</h1>
 
 
-<form method="post" enctype="multipart/form-data" action="ie">
-
-    <input type="file" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
-    <input type="submit" value="Upload" />
-    <input type="text" id="FileName" value="" />
-    <i class="fas fa-upload"></i>
-</form>
-
-
 
 <style>
     .XFImg {
+        top: 150;
+        Left: 150;
         height: 100px;
         width: 100px;
         position: absolute;
@@ -47,13 +40,14 @@
         -webkit-user-select: none;
         -khtml-user-select: none;
         -moz-user-select: none;
-        -o-user-select: none;
-        user-select: none;
+        -o-user-select: no user-select: none;
     }
-    .XFImg:hover{
-        opacity:0.7;
-        z-index:2000;
-    }
+
+        .XFImg:hover {
+            opacity: 0.7;
+            z-index: 2000;
+        }
+
     .image01 {
         height: 100%;
         width: 100%;
@@ -188,7 +182,7 @@
         border: 3px solid dodgerblue;
         height: 20rem;
         width: 20rem;
-        float: left;
+        float:left;
     }
 
     .upload-list {
@@ -200,7 +194,7 @@
     }
 
     .soid_row {
-        cursor:pointer;
+        cursor: pointer;
     }
 
     /*    #bob {
@@ -218,519 +212,439 @@
     }*/
 </style>
 
-<div class="canvas">
+<table>
+    <tr>
 
-    @foreach (var u in offer.XForms)
-    {
-        @if (u.XID >= 0)
-        {
+        <td style="vertical-align:top">
 
-            @*< div class="XFImg" id = "XFImg_@u.XID" data-xid="@u.XID" style="transform: rotate(@u.Rotation deg); height: @u.Height px; width: @u.Width px;">*@
-            <div class="XFImg" id="XFImg_@u.XID" data-xid="@u.XID" data-rotation="@u.Rotation" style="position:absolute;top:@(u.Top)px; left:@(u.Left)px;  height:@(u.Height)px; width:@(u.Width)px">
-                @*; left: @u.Left; top: @u.Top; height: @u.Height; width: @u.Width;*@
-                <div class="drag nw"></div>
-                <div class="drag n"></div>
-                <div class="drag ne"></div>
-                <div class="drag e"></div>
-                <div class="drag se"></div>
-                <div class="drag s"></div>
-                <div class="drag sw"></div>
-                <div class="drag w"></div>
-                <div class="drag sc"></div>
-                <div class="drag rt"></div>
-                @if (u.UID != null && u.UID > 0)
+            @*------------------------------   Column 1  -------------------------------*@
+            <div class="canvas">
+
+                @foreach (var u in offer.XForms)
                 {
-                    <img src="~/img/@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name" class="image01" alt="...">
-                }
-                else
-                {
-                    <img src="..." class="image01" alt="...">
-                }
-            </div>
-        }
-    }
-</div>
-
-<div>
-    <a href="#" onclick="saveXForms()">SAVE BUTTON</a>
-</div>
-<div>
-    <div class="upload-list">
-        @foreach (var u in offer.Uploads)
-        {
-            <div class="card" style="width: 18rem;" draggable="true">
-                @if (!string.IsNullOrEmpty(u.Name))
-                {
-                    <img src="~/img/@u.Name" class="xform-thumbnail" alt="...">
-                }
-                else
-                {
-                    <img src="..." class="xform-thumbnail" alt="...">
-                }
-                <button onclick="addXForms(@u.UID, @offer.OID);">Include in Offer</button>
-
-
-            </div>
-        }
-    </div>
-</div>
-
-<!-- TRANSFORM ITEMS IN THE OFFER -->
-
-<div class="card frmimg" style="width: 50rem;">
-    <div class="xform-list">
-        @foreach (var u in offer.XForms)
-        {
-            <div class="XIDcard" data-xid="@u.XID" style="width: 18rem;" draggable="true">
-                @if (u.UID != null && u.UID > 0)
-                {
-                    <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
-                    @offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name
-
-                    <input type="text" id="InputT_@u.XID" value="@u.Top" />
-                    <input type="text" id="InputL_@u.XID" value="@u.Left" />
-                    <input type="text" id="InputW_@u.XID" value="@u.Width" />
-                    <input type="text" id="InputH_@u.XID" value="@u.Height" />
-                    <input type="text" id="InputR_@u.XID" value="@u.Rotation" />
-                    <input type="text" id="InputC_@u.XID" value="@u.Transparency" />
-                    <button onclick="removeTransform(@u.XID);">Remove from offer</button>
-                }
-                else
-                {
-                    <img src="..." class="xform-thumbnail" alt="...">
-                }
-            </div>
-        }
-
-    </div>
-</div>
-
-
-
-<div class="selection-list">
-    @foreach (var s in offer.Selections)
-    {
-
-        <div id="sid_@s.SID" class="card frmimg" data-sid="@s.SID" style="width: 18rem;">
-            @*@uploads.UploadList.FirstOrDefault(x => x.UID == s.UID).Name*@
-            @s.Option  <span> <a href="#"><i class="fas fa-edit"></i></a> <a ><i class="fas fa-plus-square" style="color:green;"></i></a> <a ><i class="fas fa-trash-alt" style="color:red;"></i></a></span>
-                       <table>
-                           @foreach (var o in offer.SelectionOptions)
-                           {
-                               if (o.SID == s.SID)
-                               {
-                                   <tr id="soid_@o.SOID" class="soid_row" onclick="selectSOID(@s.SID, @o.SOID)">
-                                       <td><span id="soid_display_@o.SOID">@o.OName</span><span id="soid_edit_@o.SOID" style="display:none;"><input id="soid_input_@o.SOID" type="text" value="@o.OName" /></span></td>
-                                       <td><a onclick="deleteSelectionOption(@o.SOID);"><i class="fas fa-trash-alt" style="color:red"></i></a></td>
-                                       <td id="soid_edit_button_@o.SOID">
-                                           <a onclick="editSelectionOption(@o.SOID);"><i class="fas fa-edit"></i></a>
-                                        </td>                
-                                       <td id="soid_save_button_@o.SOID" style="display:none;">
-                                           <a  onclick="saveSelectionOption(@o.SOID);"><i class="fas fa-save"></i></a>
-                                       </td>
-                                   </tr> 
-                               }
-                           }
-                       </table>
-        </div>
-    }
-    <div><a href="#"><i class="fas fa-plus-square" style="color:green;"></i> add</a></div>
-</div>
-
-<script type="text/javascript">
-    function editSelectionOption(soid) {
-        document.getElementById(`soid_display_${soid}`).style.display = "none";
-        document.getElementById(`soid_edit_${soid}`).style.display = "block";
-        document.getElementById(`soid_edit_button_${soid}`).style.display = "none";
-        document.getElementById(`soid_save_button_${soid}`).style.display = "block";
-    }
-
-    function saveSelectionOption(soid) {
-        document.getElementById(`soid_display_${soid}`).style.display = "block";
-        document.getElementById(`soid_edit_${soid}`).style.display = "none";
-        document.getElementById(`soid_edit_button_${soid}`).style.display = "block";
-        document.getElementById(`soid_save_button_${soid}`).style.display = "none";
-        document.getElementById(`soid_display_${soid}`).innerHTML = document.getElementById(`soid_input_${soid}`).value;
-    }
-
-    function selectSOID(sid, soid) {
-        document.querySelectorAll(`#sid_${sid} .soid_row`).forEach(sr => {
-            sr.style.backgroundColor = "";
-        });
-        document.getElementById(`soid_${soid}`).style.backgroundColor = 'rgba(150, 150, 200, 0.30)';
-        //put selection response here
-    }                           
-</script>
-
-<div class="xformselection-list">
-    @foreach (var u in offer.XFormSelections)
-    {
-        <div class="card frmimg" data-xid="@u.XID" style="width: 18rem;">
-
-
-            @*@offer.XForms.FirstOrDefault(x => x.XID == u.XID).XFormName
-                @u.IID*@
-
-
-        </div>
-    }
-
-</div>
-
-<script>
-    //const el = document.querySelector(".XFImg");
-    let el;
-    let eXID;
-
-    const XFe = document.querySelectorAll('.XFImg').forEach(x => {
-        x.addEventListener("mouseenter", function (e) {
-            el = e.target;
-            eXID = parseInt(e.target.attributes["data-xid"].value);
-            //e.target.style.opacity = "0.2";
-            console.log("mouseOVER " + eXID);
-        }, false);
-        x.addEventListener("mouseout", function (e) {
-            //e.target.style.opacity = "1.0";
-            console.log("mouseOUT ");
-        }, false);
-        x.addEventListener("mousedown", mousedown);
-    });
-
-
-    let isResizing = false;
-    let elAngle = 0;
-
-    //el.addEventListener("mousedown", mousedown);
-
-    function mousedown(e) {
-        window.addEventListener("mousemove", mousemove);
-        window.addEventListener('mouseup', mouseup);
-
-        elAngle = el.attributes["data-rotation"].value;
-
-        let prevX = e.clientX;
-        let prevY = e.clientY;
-
-        document.querySelectorAll('.XFImg').forEach(xf => {
-            xf.style.zIndex = 100;
-        });
-
-        el.style.zIndex = 2000;
-
-        function mousemove(e) {
-            if (isResizing) return false;
-            el.style.transform = 'rotate(' + 0 + 'deg)';
-
-            let newX = prevX - e.clientX;
-            let newY = prevY - e.clientY;
-
-            const rect = el.getBoundingClientRect();
-            el.style.left = rect.left - newX + "px";
-            el.style.top = rect.top - newY + "px";
-            prevX = e.clientX;
-            prevY = e.clientY;
-            el.style.transform = 'rotate(' + elAngle + 'deg)';
-            console.log("mouse move !!");
-
-        }
-
-        function mouseup() {
-            window.removeEventListener("mousemove", mousemove);
-            window.removeEventListener('mouseup', mouseup);
-        }
-    }
-
-    const dragtool = document.querySelectorAll('.drag');
-
-    let currentdrag;
-
-    for (let drag of dragtool) {
-        drag.addEventListener("mousedown", mousedown);
-
-
-        function doubleclick(e) {
-            elAngle = 0;
-
-
-        }
-
-
-        function mousedown(e) {
-            currentdrag = e.target;
-            isResizing = true;
-
-            let prevX = e.clientX;
-            let prevY = e.clientY;
-            let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
-
-
-            window.addEventListener("mousemove", mousemove);
-            window.addEventListener("mouseup", mouseup);
-
-            function mousemove(e) {
-                el.style.transform = 'rotate(' + 0 + 'deg)';
-                //el.style.rotation = 0;
-                const rect = el.getBoundingClientRect();
-                let dX = prevX - e.clientX
-                let dY = prevY - e.clientY
-                let rA = elAngle * Math.PI / 180;
-
-                let rX = dX * Math.cos(rA) + dY * Math.sin(rA);
-                let rY = -dX * Math.sin(rA) + dY * Math.cos(rA);
-
-                dX = rX;
-                dY = rY;
-
-
-                console.log(" dX:" + dX + "       dY:" + dY);
-
-                if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
-
-                if (currentdrag.classList.contains('rt')) {
-
-                    elAngle = elAngle - dX;
-                    if (elAngle > 360) { elAngle = elAngle - 360; }
-                    if (elAngle < 0) { elAngle = elAngle + 360; }
-                    el.style.transform = 'rotate(' + elAngle + 'deg)';
-                    //el.style.rotation = elAngle;
-                    console.log(" elAngle:" + elAngle);
-
-
-                }
-
-                if (currentdrag.classList.contains('nw') || currentdrag.classList.contains('n') || currentdrag.classList.contains('ne')) {
-                    el.style.height = rect.height + dY + "px";
-                    el.style.top = rect.top - dY + "px";
-                }
-
-                if (currentdrag.classList.contains('ne') || currentdrag.classList.contains('e') || currentdrag.classList.contains('se') || currentdrag.classList.contains('sc')) {
-                    el.style.width = rect.width - dX + "px";
-                }
-
-                if (currentdrag.classList.contains('se') || currentdrag.classList.contains('s') || currentdrag.classList.contains('sw') || currentdrag.classList.contains('sc')) {
-                    el.style.height = rect.height - dY + "px";
-                }
-
-
-                if (currentdrag.classList.contains('sw') || currentdrag.classList.contains('w') || currentdrag.classList.contains('nw')) {
-                    el.style.width = rect.width + dX + "px";
-                    el.style.left = rect.left - dX + "px";
-                }
-
-                prevX = e.clientX;
-                prevY = e.clientY;
-                el.style.transform = 'rotate(' + elAngle + 'deg)';
-                //el.style.rotation = elAngle;
-
-                document.getElementById("InputR_" + 1).value = elAngle;
-            }
-
-            function mouseup() {
-                window.removeEventListener("mousemove", mousemove);
-                window.removeEventListener("mouseup", mouseup);
-                el.attributes["data-rotation"].value = elAngle;
-                isResizing = false;
-            }
-        }
-    }
-
-</script>
-<script>
-    //$(document).ready(function () {
-    //    //function will be called on button click having id btnsave
-    //    $(".frmimg").click(function () {
-    //        var Xid = $(this).data("xid");
-    //        var width = $(this).data("width");
-    //        $.ajax(
-    //            {
-    //                type: "POST", //HTTP POST Method
-    //                url: "Upload/UpdateWidth", // Controller/View
-    //                data: { //Passing data
-    //                    Xid: Xid
-    //                    //    City: $("#txtAddress").val(),
-    //                    //    Address: $("#txtcity").val()
-    //                },
-    //                success: function () {
-    //                    location.reload();
-    //                }
-
-    //            });
-
-    //    });
-    //});
-
-</script>
-<script type="text/javascript">
-    function saveXForms() {
-        var xforms = [];
-        console.log("Beg SAVE XForms");
-        document.querySelectorAll('.XIDcard').forEach(x => {
-            var xf = {};
-            xf.xid = parseInt(x.attributes["data-xid"]?.value);
-            xf.top = parseInt(document.getElementById("InputT_" + xf.xid).value);
-            xf.left = parseInt(document.getElementById("InputL_" + xf.xid).value);
-            xf.width = parseInt(document.getElementById("InputW_" + xf.xid).value);
-            xf.height = parseInt(document.getElementById("InputH_" + xf.xid).value);
-            xf.rotation = parseInt(document.getElementById("InputR_" + xf.xid).value);
-            xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
-            console.log("data-xid! " + xf.xid);
-            console.log("T " + document.getElementById("InputT_" + xf.xid).value);
-            console.log("R " + document.getElementById("InputR_" + xf.xid).value);
-            console.log("C " + document.getElementById("InputC_" + xf.xid).value);
-
-            xforms.push(xf);
-        });
-        // console.log(xforms);
-        // console.log(JSON.stringify(xforms));
-        fetch("saveoffer", {
-            method: "POST",
-            body: JSON.stringify(xforms),
-            headers: {
-                "Content-type": "application/json"
-            }
-        }).then(resp => resp.json())
-            .then(json => {
-                console.log(json);
-                //location.reload();
-            });
-        console.log("End SAVE XForms");
-    }
-
-    function addXForms(uid, oid) {
-        var payload = {};
-        payload.uid = uid;
-        payload.oid = oid;
-
-        fetch("addtransform", {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: {
-                "Content-type": "application/json"
-            }
-        }).then(resp => resp.json())
-            .then(json => {
-                console.log(json)
-                location.reload();
-            })
-    }
-    function removeTransform(xid) {
-        fetch("removetransform", {
-            method: "POST",
-            body: xid,
-            headers: {
-                "Content-type": "application/json"
-            }
-        }).then(json => {
-            console.log(json);
-            location.reload();
-        });
-    }
-
-    //function saveXForms() {
-    //    var xforms = [];
-    //    document.querySelectorAll('.xform-list > [data-xid]').forEach(x => {
-    //        var xf = {};
-    //        xf.xid = parseInt(x.attributes["data-xid"]?.value);
-    //        xf.top = parseInt(x.attributes["data-top"]?.value);
-    //        xf.left = parseInt(x.attributes["data-left"]?.value);
-    //        xf.width = parseInt(x.width);
-    //        console.log("HELLO!!!! " + x.width);
-    //        xf.height = parseInt(x.height);
-    //        xforms.push(xf);
-    //    });
-    //    // console.log(xforms);
-    //    // console.log(JSON.stringify(xforms));
-
-    //    fetch("saveoffer", {
-    //        method: "POST",
-    //        body: JSON.stringify(xforms),
-    //        headers: {
-    //            "Content-type": "application/json"
-    //        }
-    //    }).then(resp => resp.json())
-    //        .then(json => {
-    //            console.log(json);
-    //            location.reload();
-    //        });
-    //}
-
-</script>
-
-
-@*<div class="card frmimg" style="width: 50rem;">
-        <div class="xform-list">
-            @foreach (var u in offer.XForms)
-            {
-                <div class="card frmimg" data-xid="@u.XID" data-height="@u.Height" data-top="@u.Top" data-left="@u.Left"
-                     data-width="@u.Width" style="width: 18rem;" onclick="incrementHeight(this)" draggable="true">
-                    @if (u.UID != null && u.UID > 0)
+                    @if (u.XID >= 0)
                     {
-                        <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
-                        @offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name
 
-                        <span style="margin-left:10px;">w:@u.Width</span>
-                        <span style="margin-left:10px;">h:@u.Height</span>
-
-
-                        <input type="text" id="WInput@u.XID" value="@u.Width" />
-
+                        @*< div class="XFImg" id = "XFImg_@u.XID" data-xid="@u.XID" style="transform: rotate(@u.Rotation deg); height: @u.Height px; width: @u.Width px;">*@
+                        <div class="XFImg" id="XFImg_@u.XID" data-xid="@u.XID" data-rotation="@u.Rotation" style="position:absolute;top:@(u.Top)px; left:@(u.Left)px;  height:@(u.Height)px; width:@(u.Width)px">
+                            @*; left: @u.Left; top: @u.Top; height: @u.Height; width: @u.Width;*@
+                            <div class="drag nw"></div>
+                            <div class="drag n"></div>
+                            <div class="drag ne"></div>
+                            <div class="drag e"></div>
+                            <div class="drag se"></div>
+                            <div class="drag s"></div>
+                            <div class="drag sw"></div>
+                            <div class="drag w"></div>
+                            <div class="drag sc"></div>
+                            <div class="drag rt"></div>
+                            @if (u.UID != null && u.UID > 0)
+                            {
+                                <img src="~/img/@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name" class="image01" alt="...">
+                            }
+                            else
+                            {
+                                <img src="..." class="image01" alt="...">
+                            }
+                        </div>
                     }
-                    else
-                    {
-                        <img src="..." class="xform-thumbnail" alt="...">
-                    }
+                }
+            </div>
+
+
+            <div class="selection-list">
+                @foreach (var s in offer.Selections)
+                {
+
+                    <div id="sid_@s.SID" class="card frmimg" data-sid="@s.SID" style="width: 18rem;">
+                        @*@uploads.UploadList.FirstOrDefault(x => x.UID == s.UID).Name*@
+                        @s.Option  <span> <a href="#"><i class="fas fa-edit"></i></a> <a><i class="fas fa-plus-square" style="color:green;"></i></a> <a><i class="fas fa-trash-alt" style="color:red;"></i></a></span>
+                        <table>
+                            @foreach (var o in offer.SelectionOptions)
+                            {
+                                if (o.SID == s.SID)
+                                {
+                                    <tr id="soid_@o.SOID" class="soid_row" onclick="selectSOID(@s.SID, @o.SOID)">
+                                        <td>
+                                            <span id="soid_display_@o.SOID">@o.OName</span><span id="soid_edit_@o.SOID" style="display:none;"><input id="soid_input_@o.SOID" type="text" value="@o.OName" /></span>
+                                        </td>
+                                        <td>
+                                            <a onclick="deleteSelectionOption(@o.SOID);"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                                        </td>
+                                        <td id="soid_edit_button_@o.SOID">
+                                            <a onclick="editSelectionOption(@o.SOID);"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                        <td id="soid_save_button_@o.SOID" style="display:none;">
+                                            <a onclick="saveSelectionOption(@o.SOID);"><i class="fas fa-save"></i></a>
+                                        </td>
+                                    </tr>
+
+                                }
+                            }
+                        </table>
+                    </div>
+                }
+                <div><a href="#"><i class="fas fa-plus-square" style="color:green;"></i> add</a></div>
+            </div>
+
+            <div class="xformselection-list">
+                @foreach (var u in offer.OItems)
+                {
+                <div class="card frmimg" data-xid="@u.IID" style="width: 18rem;">
+                    @offer.XFormSelections.FirstOrDefault(x => x.IID == u.IID).
+                    @u.IID
+
                 </div>
+                }
+
+            </div>
+
+        </td>
+        <td style="vertical-align:top">
+
+            @*------------------------------   Column 2  -------------------------------*@
+            <!-- TRANSFORM ITEMS IN THE OFFER -->    
+            <div>
+                <a href="#" onclick="saveXForms()">SAVE BUTTON</a>
+            </div>
+
+            
+            <div class="xform-list">
+                @foreach (var u in offer.XForms)
+                {
+                    <div class="XIDcard" data-xid="@u.XID" style="width: 30rem; border-color:ActiveBorder; display:flex; flex-wrap:nowrap;" draggable="true">
+                        @if (u.UID != null && u.UID > 0)
+                        {
+
+                            <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
+
+                            @offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name
+
+                            <div>
+                                <a onclick="editSelectionOption(5);"><i class="fas fa-edit"></i></a>
+                                <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:red"></i></a>
+                            </div>
+                            <Table style="justify-items:right">
+                                <tr>
+                                    <td>
+                                        <a>   T </a><input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" />
+                                    </td>
+                                    <td>
+                                        <a>   W </a><input type="text" id="InputW_@u.XID" style="width:3rem" value="@u.Width" />
+                                    </td>
+                                    <td>
+                                        <a>   R </a><input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a>   L </a><input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" />
+                                    </td>
+                                    <td>
+                                        <a>   H </a><input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" />
+                                    </td>
+                                    <td>
+                                        <a>   C </a><input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
+                                    </td>
+                                </tr>
+                            </Table>
+                         }
+                          else
+                         {
+                            <img src="..." class="xform-thumbnail" alt="...">
+                         }
+                    </div>
+                }
+
+            </div>
+
+            <script type="text/javascript">
+                function editSelectionOption(soid) {
+                    document.getElementById(`soid_display_${soid}`).style.display = "none";
+                    document.getElementById(`soid_edit_${soid}`).style.display = "block";
+                    document.getElementById(`soid_edit_button_${soid}`).style.display = "none";
+                    document.getElementById(`soid_save_button_${soid}`).style.display = "block";
+                }
+
+                function saveSelectionOption(soid) {
+                    document.getElementById(`soid_display_${soid}`).style.display = "block";
+                    document.getElementById(`soid_edit_${soid}`).style.display = "none";
+                    document.getElementById(`soid_edit_button_${soid}`).style.display = "block";
+                    document.getElementById(`soid_save_button_${soid}`).style.display = "none";
+                    document.getElementById(`soid_display_${soid}`).innerHTML = document.getElementById(`soid_input_${soid}`).value;
+                }
+
+                function selectSOID(sid, soid) {
+                    document.querySelectorAll(`#sid_${sid} .soid_row`).forEach(sr => {
+                        sr.style.backgroundColor = "";
+                    });
+                    document.getElementById(`soid_${soid}`).style.backgroundColor = 'rgba(150, 150, 200, 0.30)';
+                    //put selection response here
+                }
+            </script>
+            
+        </td>
+        <td style="vertical-align:top; align-items:left; border-collapse: collapse;">
+
+            @*------------------------------   Column 3  -------------------------------*@
+            <form method="post" enctype="multipart/form-data" action="ie">
+                <input type="file" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
+                <input type="submit" value="Upload" />
+                <input type="text" id="FileName" style="display: none" value="" />
+                <a onclick="UploadImage();"><i class="fas fa-upload"></i></a>
+            </form>
+            <script type="text/javascript">
+                function UploadImage() {
+                    document.getElementById('FileName').value = this.value.split('.')[1];
+                }
+
+            </script>
+
+            <div class="upload-list">
+                @foreach (var u in offer.Uploads)
+                {
+                    <div class="card" draggable="true">
+                        @if (!string.IsNullOrEmpty(u.Name))
+                        {
+                            <img src="~/img/@u.Name" class="xform-thumbnail" alt="...">
+                        }
+                        else
+                        {
+                            <img src="..." class="xform-thumbnail" alt="...">
+                        }
+                        <button onclick="addXForms(@u.UID, @offer.OID);">Add to Offer</button>
+
+
+                    </div>
+                }
+            </div>
+
+        </td>   
+    </tr>
+</table>
+
+
+
+        @*------------------------------   Mouse Control  -------------------------------*@
+        <script>
+            //const el = document.querySelector(".XFImg");
+            let el;
+            let eXID;
+
+            const XFe = document.querySelectorAll('.XFImg').forEach(x => {
+                x.addEventListener("mouseenter", function (e) {
+                    el = e.target;
+                    eXID = parseInt(e.target.attributes["data-xid"].value);
+                    //e.target.style.opacity = "0.2";
+                    console.log("mouseOVER " + eXID);
+                }, false);
+                x.addEventListener("mouseout", function (e) {
+                    //e.target.style.opacity = "1.0";
+                    console.log("mouseOUT ");
+                }, false);
+                x.addEventListener("mousedown", mousedown);
+            });
+
+
+            let isResizing = false;
+            let elAngle = 0;
+
+            //el.addEventListener("mousedown", mousedown);
+
+            function mousedown(e) {
+                window.addEventListener("mousemove", mousemove);
+                window.addEventListener('mouseup', mouseup);
+
+                elAngle = el.attributes["data-rotation"].value;
+
+                let prevX = e.clientX;
+                let prevY = e.clientY;
+
+                document.querySelectorAll('.XFImg').forEach(xf => {
+                    xf.style.zIndex = 100;
+                });
+
+                el.style.zIndex = 2000;
+
+                function mousemove(e) {
+                    if (isResizing) return false;
+                    el.style.transform = 'rotate(' + 0 + 'deg)';
+
+                    let newX = prevX - e.clientX;
+                    let newY = prevY - e.clientY;
+
+                    const rect = el.getBoundingClientRect();
+                    el.style.left = rect.left - newX + "px";
+                    el.style.top = rect.top - newY + "px";
+                    prevX = e.clientX;
+                    prevY = e.clientY;
+                    el.style.transform = 'rotate(' + elAngle + 'deg)';
+                    console.log("mouse move !!");
+
+                }
+
+                function mouseup() {
+                    window.removeEventListener("mousemove", mousemove);
+                    window.removeEventListener('mouseup', mouseup);
+                }
             }
 
-        </div>
-    </div>*@
+            const dragtool = document.querySelectorAll('.drag');
 
+            let currentdrag;
 
-@*@foreach (UploadModel upload in Model.UploadModel)
-    {
-        <tr>
-            <td>@upload.Name</td>
-        </tr>
-    }*@
+            for (let drag of dragtool) {
+                drag.addEventListener("mousedown", mousedown);
 
-@*<div class="xform-list">
-        @foreach (var x in xforms)
-        {
-            <div class="card" style="width: 18rem;">
-                @if (!string.IsNullOrEmpty(x.XFormName))
-                {
-                    <img src="~/img/@x.XFormName" class="card-img-top" alt="...">
-                }
-                else
-                {
-                    <img src="..." class="card-img-top" alt="...">
+                function doubleclick(e) {
+                    elAngle = 0;
                 }
 
+                function mousedown(e) {
+                    currentdrag = e.target;
+                    isResizing = true;
 
-            </div>
-        }
-
-    </div>*@
-
+                    let prevX = e.clientX;
+                    let prevY = e.clientY;
+                    let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
 
 
+                    window.addEventListener("mousemove", mousemove);
+                    window.addEventListener("mouseup", mouseup);
 
-@*<div class="xform-list">
+                    function mousemove(e) {
+                        el.style.transform = 'rotate(' + 0 + 'deg)';
+                        //el.style.rotation = 0;
+                        const rect = el.getBoundingClientRect();
+                        let dX = prevX - e.clientX
+                        let dY = prevY - e.clientY
+                        let rA = elAngle * Math.PI / 180;
 
-        @foreach (var x in xforms)
-        {
-            <div class="card" style="width: 18rem;">
-                @if (!string.IsNullOrEmpty(x.XFormName))
-                {
-                    <p>x.XFormName</p>
+                        let rX = dX * Math.cos(rA) + dY * Math.sin(rA);
+                        let rY = -dX * Math.sin(rA) + dY * Math.cos(rA);
+
+                        dX = rX;
+                        dY = rY;
+
+
+                        console.log(" dX:" + dX + "       dY:" + dY);
+
+                        if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
+
+                        if (currentdrag.classList.contains('rt')) {
+
+                            elAngle = elAngle - dX;
+                            if (elAngle > 360) { elAngle = elAngle - 360; }
+                            if (elAngle < 0) { elAngle = elAngle + 360; }
+                            el.style.transform = 'rotate(' + elAngle + 'deg)';
+                            //el.style.rotation = elAngle;
+                            console.log(" elAngle:" + elAngle);
+
+
+                        }
+
+                        if (currentdrag.classList.contains('nw') || currentdrag.classList.contains('n') || currentdrag.classList.contains('ne')) {
+                            el.style.height = rect.height + dY + "px";
+                            el.style.top = rect.top - dY + "px";
+                        }
+
+                        if (currentdrag.classList.contains('ne') || currentdrag.classList.contains('e') || currentdrag.classList.contains('se') || currentdrag.classList.contains('sc')) {
+                            el.style.width = rect.width - dX + "px";
+                        }
+
+                        if (currentdrag.classList.contains('se') || currentdrag.classList.contains('s') || currentdrag.classList.contains('sw') || currentdrag.classList.contains('sc')) {
+                            el.style.height = rect.height - dY + "px";
+                        }
+
+
+                        if (currentdrag.classList.contains('sw') || currentdrag.classList.contains('w') || currentdrag.classList.contains('nw')) {
+                            el.style.width = rect.width + dX + "px";
+                            el.style.left = rect.left - dX + "px";
+                        }
+
+                        prevX = e.clientX;
+                        prevY = e.clientY;
+                        el.style.transform = 'rotate(' + elAngle + 'deg)';
+                        //el.style.rotation = elAngle;
+
+                        document.getElementById("InputR_" + 1).value = elAngle;
+                    }
+
+                    function mouseup() {
+                        window.removeEventListener("mousemove", mousemove);
+                        window.removeEventListener("mouseup", mouseup);
+                        el.attributes["data-rotation"].value = elAngle;
+                        isResizing = false;
+                    }
                 }
-                else
-                {
-                    <p>Unnamed</p>
-                }
+            }
 
+        </script>
 
-            </div>
-        }
+        <script type="text/javascript">
+            function saveXForms() {
+                var xforms = [];
+                console.log("Beg SAVE XForms");
+                document.querySelectorAll('.XIDcard').forEach(x => {
+                    var xf = {};
+                    xf.xid = parseInt(x.attributes["data-xid"]?.value);
+                    xf.top = parseInt(document.getElementById("InputT_" + xf.xid).value);
+                    xf.left = parseInt(document.getElementById("InputL_" + xf.xid).value);
+                    xf.width = parseInt(document.getElementById("InputW_" + xf.xid).value);
+                    xf.height = parseInt(document.getElementById("InputH_" + xf.xid).value);
+                    xf.rotation = parseInt(document.getElementById("InputR_" + xf.xid).value);
+                    xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
+                    console.log("data-xid! " + xf.xid);
+                    console.log("T " + document.getElementById("InputT_" + xf.xid).value);
+                    console.log("R " + document.getElementById("InputR_" + xf.xid).value);
+                    console.log("C " + document.getElementById("InputC_" + xf.xid).value);
 
-    </div>*@
+                    xforms.push(xf);
+                });
+                // console.log(xforms);
+                // console.log(JSON.stringify(xforms));
+                fetch("saveoffer", {
+                    method: "POST",
+                    body: JSON.stringify(xforms),
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                }).then(resp => resp.json())
+                    .then(json => {
+                        console.log(json);
+                        //location.reload();
+                    });
+                console.log("End SAVE XForms");
+            }
+
+            function addXForms(uid, oid) {
+                var payload = {};
+                payload.uid = uid;
+                payload.oid = oid;
+
+                fetch("addtransform", {
+                    method: "POST",
+                    body: JSON.stringify(payload),
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                }).then(resp => resp.json())
+                    .then(json => {
+                        console.log(json)
+                        location.reload();
+                    })
+            }
+            function removeTransform(xid) {
+                fetch("removetransform", {
+                    method: "POST",
+                    body: xid,
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                }).then(json => {
+                    console.log(json);
+                    location.reload();
+                });
+            }
+
+        </script>
