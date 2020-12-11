@@ -17,6 +17,7 @@ namespace ProductPage
         public OfferModel GetOffer(int oid)
         {
             var o = new OfferModel();
+            o.OID = oid;
             o.Selections = _context.Selections.Where(m => m.OID == oid).ToList();
             o.XForms = _context.XForms.Where(m => m.OID == oid).ToList();
             o.Uploads = _context.Uploads.ToList();
@@ -45,6 +46,32 @@ namespace ProductPage
             }
 
             return true;
+        }
+
+        public bool RemoveXForms(int xid)
+        {
+            var found = _context.XForms.FirstOrDefault(m => m.XID==xid);
+            _context.XForms.Remove(found);
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool AddXForms(int uid, int oid)
+        {
+            var n = new XForm();
+            n.OID = oid;
+            n.UID = uid;
+            n.AID = 1;
+            n.Top = 100;
+            n.Left = 100;
+            n.Width = 100;
+            n.Height = 100;
+            n.Rotation = 0;
+            n.Transparency = 1;
+            _context.XForms.Add(n);
+            var result = _context.SaveChanges();
+            return result==1;
         }
     }
 }

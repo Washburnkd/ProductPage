@@ -8,7 +8,6 @@ using System.IO;
 using ProductPage.Data;
 using ProductPage.Models;
 using Microsoft.CodeAnalysis.Differencing;
-using ProductPage.Repository.Service;
 
 namespace ProductPage.Controllers
 {
@@ -19,11 +18,6 @@ namespace ProductPage.Controllers
         private OfferService _offerService { get; set; }
         private List<Upload> _uploads { get; set; }
         private List<XForm> _xforms { get; set; }
-
-        struct allTables
-        {
-
-        }
 
         public UploadController(PinitgoDbContext context)
         {
@@ -47,12 +41,7 @@ namespace ProductPage.Controllers
             var offer = _offerService.GetOffer(2);
             return View("ie", offer);
         }
-        [HttpPost]
-        public IActionResult UpdateWidth(int Xid)
-        {
-            var offer = UploadingImages.UpdateWidth(Xid);
-            return Json(true);
-        }
+
 
         [HttpPost("saveoffer")]
         public IActionResult SaveOffer([FromBody]List<XForm> xforms)
@@ -60,6 +49,20 @@ namespace ProductPage.Controllers
             var success = _offerService.SaveXForms(xforms);
             //do something with this.
             return Json($"This was received and the result was {success}");
+        }
+
+        [HttpPost("removetransform")]
+        public IActionResult RemoveTransform([FromBody] int xid)
+        {
+            var success = _offerService.RemoveXForms(xid);
+            return Json(success);
+        }
+
+        [HttpPost("addtransform")]
+        public IActionResult AddTransform([FromBody] AddTransformVM addTransformVM)
+        {
+            var success = _offerService.AddXForms(addTransformVM.UID, addTransformVM.OID);
+            return Json(success);
         }
 
         [HttpGet("uploads")]
@@ -80,18 +83,9 @@ namespace ProductPage.Controllers
                 {
                     await ImageFile.CopyToAsync(fileStream);
                 }
-                var u = new Upload();
-                u.Name = ImageFile.FileName;
-                u.AID = 1;
-                //u.Extention = ImageFile.FileName.Split('.').Last();
-                UploadingImages.UploadImages(u);
-                _context.Uploads.Add(u);
-                await _context.SaveChangesAsync();
+                await _imageService.SaveImageAsync(fileName);
 
-                //var found = _context.Uploads.Where(x => x.UID == u.UID).FirstOrDefault();
-                //_context.Uploads.Remove(found);
-                //await _context.SaveChangesAsync();
-                //System.IO.File.Delete(filePath);
+
                 return Redirect("ie");
             }
             return Redirect("ie");

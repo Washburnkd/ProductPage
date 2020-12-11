@@ -18,8 +18,8 @@ namespace ProductPage.Data
         public int UID { get; set; }
         public int Top { get; set; }
         public int Left { get; set; }
-        public double Width { get; set; }
-        public double Height { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public double Rotation { get; set; }
         public int Transparency { get; set; }
         public bool Crop { get; set; }

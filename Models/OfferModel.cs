@@ -8,6 +8,7 @@ namespace ProductPage.Models
 {
     public class OfferModel
     {
+        public int OID { get; set; }
         public List<Upload> Uploads { get; set; }
         public List<Selection> Selections { get; set; }
         public List<SelectionOption> SelectionOptions { get; set; }

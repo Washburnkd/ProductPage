@@ -11,7 +11,7 @@
   <ItemGroup>
     <None Remove="Data\NewFile.txt" />
     <None Remove="Data\XFormSelection" />
-    <None Remove="Services\NewFile.txt" />
+    <None Remove="Models\NewFile.txt" />
   </ItemGroup>
 
   <ItemGroup>
