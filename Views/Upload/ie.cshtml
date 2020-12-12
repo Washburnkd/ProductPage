@@ -23,6 +23,55 @@
 
 
 <style>
+.grid-main { 
+    display: grid; 
+    grid-template-columns: 
+        'imageUpload auto auto' 'canvas xform-list upload-list' 
+        'selection-list xform-list upload-list' 
+        'xformselection-list auto auto'; 
+    grid-gap: 10px; 
+
+}
+
+    .imageUpload {
+        grid-area: imageUpload;
+    }
+
+    .canvas {
+        grid-area: canvas;
+    }
+    .xform-list {
+        grid-area: xform-list;
+    }
+
+    .selection-list {
+        grid-area: selection-list;
+    }
+
+    .xformselection-list {
+        grid-area: xformselection-list;
+    }
+
+    .upload-list {
+        grid-area: upload-list;
+    }
+
+    .soid_row {
+        display: flex;
+    }
+
+    .soid_row > td {
+            margin: 5px;
+    }
+
+    .xform-row {
+        display: flex;
+    }
+
+    .xform_row > td {
+        margin: 5px;
+    }
+
     .XFImg {
         top: 150;
         Left: 150;
@@ -186,7 +235,7 @@
     }
 
     .upload-list {
-        float: right;
+        /*float: right;*/
     }
 
     .xform-thumbnail {
@@ -290,11 +339,11 @@
             <div class="xformselection-list">
                 @foreach (var u in offer.OItems)
                 {
-                <div class="card frmimg" data-xid="@u.IID" style="width: 18rem;">
-                    @offer.XFormSelections.FirstOrDefault(x => x.IID == u.IID).
-                    @u.IID
+                    <div class="card frmimg" data-xid="@u.IID" >
+                        @offer.XFormSelections.FirstOrDefault(x => x.IID == u.IID).
+                        @u.IID
 
-                </div>
+                    </div>
                 }
 
             </div>
@@ -303,12 +352,12 @@
         <td style="vertical-align:top">
 
             @*------------------------------   Column 2  -------------------------------*@
-            <!-- TRANSFORM ITEMS IN THE OFFER -->    
+            <!-- TRANSFORM ITEMS IN THE OFFER -->
             <div>
                 <a href="#" onclick="saveXForms()">SAVE BUTTON</a>
             </div>
 
-            
+
             <div class="xform-list">
                 @foreach (var u in offer.XForms)
                 {
@@ -325,7 +374,7 @@
                                 <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:red"></i></a>
                             </div>
                             <Table style="justify-items:right">
-                                <tr>
+                                <tr class="xform-row">
                                     <td>
                                         <a>   T </a><input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" />
                                     </td>
@@ -336,7 +385,7 @@
                                         <a>   R </a><input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" />
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="xform-row">
                                     <td>
                                         <a>   L </a><input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" />
                                     </td>
@@ -348,11 +397,11 @@
                                     </td>
                                 </tr>
                             </Table>
-                         }
-                          else
-                         {
+                        }
+                        else
+                        {
                             <img src="..." class="xform-thumbnail" alt="...">
-                         }
+                        }
                     </div>
                 }
 
@@ -382,13 +431,13 @@
                     //put selection response here
                 }
             </script>
-            
+
         </td>
         <td style="vertical-align:top; align-items:left; border-collapse: collapse;">
 
             @*------------------------------   Column 3  -------------------------------*@
-            <form method="post" enctype="multipart/form-data" action="ie">
-                <input type="file" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
+            <form method="post" class="imageUpload" enctype="multipart/form-data" action="ie">
+                <input type="file" id="imageInput" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
                 <input type="submit" value="Upload" />
                 <input type="text" id="FileName" style="display: none" value="" />
                 <a onclick="UploadImage();"><i class="fas fa-upload"></i></a>
@@ -412,15 +461,14 @@
                         {
                             <img src="..." class="xform-thumbnail" alt="...">
                         }
-                        <button onclick="addXForms(@u.UID, @offer.OID);">Add to Offer</button>
+                        <a onclick="addXForms(@u.UID, @offer.OID);"><i class="fas fa-plus-square" style="color:green;"></i></a>
 
+                </div>
+            }
+                </div>
 
-                    </div>
-                }
-            </div>
-
-        </td>   
-    </tr>
+            </td>
+        </tr>
 </table>
 
 
