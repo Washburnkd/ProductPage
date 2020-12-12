@@ -433,19 +433,36 @@
             </script>
 
         </td>
-        <td style="vertical-align:top; align-items:left; border-collapse: collapse;">
+        <td style="vertical-align:top; border-collapse: collapse;">
 
             @*------------------------------   Column 3  -------------------------------*@
-            <form method="post" class="imageUpload" enctype="multipart/form-data" action="ie">
-                <input type="file" id="imageInput" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
-                <input type="submit" value="Upload" />
-                <input type="text" id="FileName" style="display: none" value="" />
-                <a onclick="UploadImage();"><i class="fas fa-upload"></i></a>
+            <form method="post" class="imageUpload" id="imageUpload" enctype="multipart/form-data" action="ie">
+                <a onclick="document.getElementById('imageInput').click()"><i class="fas fa-arrow-left"></i></a>
+                <input type="file" id="imageInput" name="ImageFile" onchange="this.form.submit()" style="display:none"/>
+                @*<input type="submit" value="Upload" />*@
+                @*<input type="text" id="FileName" style="display: none" value="" />*@
             </form>
+            
             <script type="text/javascript">
                 function UploadImage() {
-                    document.getElementById('FileName').value = this.value.split('.')[1];
+                    console.log("UploadMe");
+                    document.getElementById("imageInput").click();
+                    //document.getElementById('FileName'). = this.value.split('.')[1];
+                    //this.form.imageUpload();
                 }
+
+            </script>
+
+            @*<form method="post" class="imageUpload" enctype="multipart/form-data" action="ie">
+            <input type="file" id="imageInput" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
+            <input type="submit" value="Upload" />
+            <input type="text" id="FileName" style="display: none" value="" />
+            <a onclick="UploadImage();"><i class="fas fa-upload"></i></a>
+        </form>
+        <script type="text/javascript">
+            function UploadImage() {
+                document.getElementById('FileName').value = this.value.split('.')[1];
+            }*@
 
             </script>
 
@@ -463,11 +480,11 @@
                         }
                         <a onclick="addXForms(@u.UID, @offer.OID);"><i class="fas fa-plus-square" style="color:green;"></i></a>
 
-                </div>
-            }
-                </div>
+                    </div>
+                }
+            </div>
 
-            </td>
+        </td>
         </tr>
 </table>
 
@@ -615,7 +632,10 @@
                         el.style.transform = 'rotate(' + elAngle + 'deg)';
                         //el.style.rotation = elAngle;
 
-                        document.getElementById("InputR_" + 1).value = elAngle;
+                        console.log(" eXID: " + eXID);
+                        console.log(" ID: " + el.id);
+                        document.getElementById("InputR_" + eXID).value = elAngle;
+                        
                     }
 
                     function mouseup() {
