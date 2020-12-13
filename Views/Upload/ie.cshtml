@@ -490,242 +490,244 @@
 
 
 
-        @*------------------------------   Mouse Control  -------------------------------*@
-        <script>
-            //const el = document.querySelector(".XFImg");
-            let el;
-            let eXID;
+@*------------------------------   Mouse Control  -------------------------------*@
+<script>
+    //const el = document.querySelector(".XFImg");
+    let el;
+    let eXID;
 
-            const XFe = document.querySelectorAll('.XFImg').forEach(x => {
-                x.addEventListener("mouseenter", function (e) {
-                    el = e.target;
-                    eXID = parseInt(e.target.attributes["data-xid"].value);
-                    //e.target.style.opacity = "0.2";
-                    console.log("mouseOVER " + eXID);
-                }, false);
-                x.addEventListener("mouseout", function (e) {
-                    //e.target.style.opacity = "1.0";
-                    console.log("mouseOUT ");
-                }, false);
-                x.addEventListener("mousedown", mousedown);
-            });
+    const XFe = document.querySelectorAll('.XFImg').forEach(x => {
+        x.addEventListener("mouseenter", function (e) {
+            el = e.target;
+            eXID = parseInt(e.target.attributes["data-xid"].value);
+            //e.target.style.opacity = "0.2";
+            console.log("mouseOVER " + eXID);
+        }, false);
+        x.addEventListener("mouseout", function (e) {
+            //e.target.style.opacity = "1.0";
+            console.log("mouseOUT ");
+        }, false);
+        x.addEventListener("mousedown", mousedown);
+    });
 
 
-            let isResizing = false;
-            let elAngle = 0;
+    let isResizing = false;
+    let elAngle = 0;
 
-            //el.addEventListener("mousedown", mousedown);
+    //el.addEventListener("mousedown", mousedown);
 
-            function mousedown(e) {
-                window.addEventListener("mousemove", mousemove);
-                window.addEventListener('mouseup', mouseup);
+    function mousedown(e) {
+        window.addEventListener("mousemove", mousemove);
+        window.addEventListener('mouseup', mouseup);
 
-                elAngle = el.attributes["data-rotation"].value;
+        elAngle = el.attributes["data-rotation"].value;
 
-                let prevX = e.clientX;
-                let prevY = e.clientY;
+        let prevX = e.clientX;
+        let prevY = e.clientY;
 
-                document.querySelectorAll('.XFImg').forEach(xf => {
-                    xf.style.zIndex = 100;
-                });
+        document.querySelectorAll('.XFImg').forEach(xf => {
+            xf.style.zIndex = 100;
+        });
 
-                el.style.zIndex = 2000;
+        el.style.zIndex = 2000;
 
-                function mousemove(e) {
-                    if (isResizing) return false;
-                    el.style.transform = 'rotate(' + 0 + 'deg)';
+        function mousemove(e) {
+            if (isResizing) return false;
+            el.style.transform = 'rotate(' + 0 + 'deg)';
+            el.style.rotation = 0;
 
-                    let newX = prevX - e.clientX;
-                    let newY = prevY - e.clientY;
+            let newX = prevX - e.clientX;
+            let newY = prevY - e.clientY;
 
-                    const rect = el.getBoundingClientRect();
-                    el.style.left = rect.left - newX + "px";
-                    el.style.top = rect.top - newY + "px";
-                    prevX = e.clientX;
-                    prevY = e.clientY;
-                    el.style.transform = 'rotate(' + elAngle + 'deg)';
-                    console.log("mouse move !!");
+            const rect = el.getBoundingClientRect();
+            el.style.left = rect.left - newX + "px";
+            el.style.top = rect.top - newY + "px";
+            prevX = e.clientX;
+            prevY = e.clientY;
+            //el.style.transform = 'rotate(' + elAngle + 'deg)';
+            el.style.rotation = elAngle;
+            console.log("mouse move !! " + el.style.rotation);
+
+        }
+
+        function mouseup() {
+            window.removeEventListener("mousemove", mousemove);
+            window.removeEventListener('mouseup', mouseup);
+        }
+    }
+
+    const dragtool = document.querySelectorAll('.drag');
+
+    let currentdrag;
+
+    for (let drag of dragtool) {
+        drag.addEventListener("mousedown", mousedown);
+
+        function doubleclick(e) {
+            elAngle = 0;
+        }
+
+        function mousedown(e) {
+            currentdrag = e.target;
+            isResizing = true;
+
+            let prevX = e.clientX;
+            let prevY = e.clientY;
+            let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
+
+
+            window.addEventListener("mousemove", mousemove);
+            window.addEventListener("mouseup", mouseup);
+
+            function mousemove(e) {
+                //el.style.transform = 'rotate(' + 0 + 'deg)';
+                el.style.rotation = 0;
+                const rect = el.getBoundingClientRect();
+                let dX = prevX - e.clientX
+                let dY = prevY - e.clientY
+                let rA = elAngle * Math.PI / 180;
+
+                let rX = dX * Math.cos(rA) + dY * Math.sin(rA);
+                let rY = -dX * Math.sin(rA) + dY * Math.cos(rA);
+
+                dX = rX;
+                dY = rY;
+
+
+                console.log(" dX:" + dX + "       dY:" + dY);
+
+                if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
+
+                if (currentdrag.classList.contains('rt')) {
+
+                    elAngle = elAngle - dX;
+                    if (elAngle > 360) { elAngle = elAngle - 360; }
+                    if (elAngle < 0) { elAngle = elAngle + 360; }
+                    //el.style.transform = 'rotate(' + elAngle + 'deg)';
+                    el.style.rotation = elAngle;
+                    console.log(" elAngle:" + elAngle);
+
 
                 }
 
-                function mouseup() {
-                    window.removeEventListener("mousemove", mousemove);
-                    window.removeEventListener('mouseup', mouseup);
-                }
-            }
-
-            const dragtool = document.querySelectorAll('.drag');
-
-            let currentdrag;
-
-            for (let drag of dragtool) {
-                drag.addEventListener("mousedown", mousedown);
-
-                function doubleclick(e) {
-                    elAngle = 0;
+                if (currentdrag.classList.contains('nw') || currentdrag.classList.contains('n') || currentdrag.classList.contains('ne')) {
+                    el.style.height = rect.height + dY + "px";
+                    el.style.top = rect.top - dY + "px";
                 }
 
-                function mousedown(e) {
-                    currentdrag = e.target;
-                    isResizing = true;
+                if (currentdrag.classList.contains('ne') || currentdrag.classList.contains('e') || currentdrag.classList.contains('se') || currentdrag.classList.contains('sc')) {
+                    el.style.width = rect.width - dX + "px";
+                }
 
-                    let prevX = e.clientX;
-                    let prevY = e.clientY;
-                    let scaleC = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
-
-
-                    window.addEventListener("mousemove", mousemove);
-                    window.addEventListener("mouseup", mouseup);
-
-                    function mousemove(e) {
-                        el.style.transform = 'rotate(' + 0 + 'deg)';
-                        //el.style.rotation = 0;
-                        const rect = el.getBoundingClientRect();
-                        let dX = prevX - e.clientX
-                        let dY = prevY - e.clientY
-                        let rA = elAngle * Math.PI / 180;
-
-                        let rX = dX * Math.cos(rA) + dY * Math.sin(rA);
-                        let rY = -dX * Math.sin(rA) + dY * Math.cos(rA);
-
-                        dX = rX;
-                        dY = rY;
+                if (currentdrag.classList.contains('se') || currentdrag.classList.contains('s') || currentdrag.classList.contains('sw') || currentdrag.classList.contains('sc')) {
+                    el.style.height = rect.height - dY + "px";
+                }
 
 
-                        console.log(" dX:" + dX + "       dY:" + dY);
+                if (currentdrag.classList.contains('sw') || currentdrag.classList.contains('w') || currentdrag.classList.contains('nw')) {
+                    el.style.width = rect.width + dX + "px";
+                    el.style.left = rect.left - dX + "px";
+                }
 
-                        if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
+                prevX = e.clientX;
+                prevY = e.clientY;
+                //el.style.rotation = elAngle + "deg"; // transform = 'rotate(' + elAngle + 'deg)';
+                el.style.rotation = elAngle;
 
-                        if (currentdrag.classList.contains('rt')) {
+                console.log(" eXID: " + eXID);
+                console.log(" ID: " + el.id);
 
-                            elAngle = elAngle - dX;
-                            if (elAngle > 360) { elAngle = elAngle - 360; }
-                            if (elAngle < 0) { elAngle = elAngle + 360; }
-                            el.style.transform = 'rotate(' + elAngle + 'deg)';
-                            //el.style.rotation = elAngle;
-                            console.log(" elAngle:" + elAngle);
+                console.log("T: " + el.style.top);
+                console.log("L: " + el.style.left);
+                console.log("W: " + el.style.width);
+                console.log("H: " + el.style.height);
+                console.log("R: " + el.style.rotation);
+                console.log("C: " + el.style.transparency);
 
-
-                        }
-
-                        if (currentdrag.classList.contains('nw') || currentdrag.classList.contains('n') || currentdrag.classList.contains('ne')) {
-                            el.style.height = rect.height + dY + "px";
-                            el.style.top = rect.top - dY + "px";
-                        }
-
-                        if (currentdrag.classList.contains('ne') || currentdrag.classList.contains('e') || currentdrag.classList.contains('se') || currentdrag.classList.contains('sc')) {
-                            el.style.width = rect.width - dX + "px";
-                        }
-
-                        if (currentdrag.classList.contains('se') || currentdrag.classList.contains('s') || currentdrag.classList.contains('sw') || currentdrag.classList.contains('sc')) {
-                            el.style.height = rect.height - dY + "px";
-                        }
-
-
-                        if (currentdrag.classList.contains('sw') || currentdrag.classList.contains('w') || currentdrag.classList.contains('nw')) {
-                            el.style.width = rect.width + dX + "px";
-                            el.style.left = rect.left - dX + "px";
-                        }
-
-                        prevX = e.clientX;
-                        prevY = e.clientY;
-                        el.style.rotation = elAngle + "deg"; // transform = 'rotate(' + elAngle + 'deg)';
-                        //el.style.rotation = elAngle;
-
-                        console.log(" eXID: " + eXID);
-                        console.log(" ID: " + el.id);
-
-                        console.log("T: " + el.style.top);
-                        console.log("L: " + el.style.left);
-                        console.log("W: " + el.style.width);
-                        console.log("H: " + el.style.height);
-                        console.log("R: " + el.style.rotation);
-                        console.log("C: " + el.style.transparency);
-
-                        document.getElementById("InputT_" + eXID).value = el.style.top;
-                        document.getElementById("InputL_" + eXID).value = el.style.left;
-                        document.getElementById("InputW_" + eXID).value = el.style.width;
-                        document.getElementById("InputH_" + eXID).value = el.style.height;
-                        document.getElementById("InputR_" + eXID).value = el.style.rotation; // elAngle
-                        // document.getElementById("InputC_" + eXID).value = el.style.transparency;
+                document.getElementById("InputT_" + eXID).value = el.style.top;
+                document.getElementById("InputL_" + eXID).value = el.style.left;
+                document.getElementById("InputW_" + eXID).value = el.style.width;
+                document.getElementById("InputH_" + eXID).value = el.style.height;
+                document.getElementById("InputR_" + eXID).value = el.style.rotation; // elAngle
+                // document.getElementById("InputC_" + eXID).value = el.style.transparency;
                         
-                    }
-
-                    function mouseup() {
-                        window.removeEventListener("mousemove", mousemove);
-                        window.removeEventListener("mouseup", mouseup);
-                        el.attributes["data-rotation"].value = elAngle;
-                        isResizing = false;
-                    }
-                }
             }
 
-        </script>
-
-        <script type="text/javascript">
-            function saveXForms() {
-                var xforms = [];
-                console.log("Beg SAVE XForms");
-                document.querySelectorAll('.XIDcard').forEach(x => {
-                    var xf = {};
-                    xf.xid = parseInt(x.attributes["data-xid"]?.value);
-                    xf.top = parseInt(document.getElementById("InputT_" + xf.xid).value);
-                    xf.left = parseInt(document.getElementById("InputL_" + xf.xid).value);
-                    xf.width = parseInt(document.getElementById("InputW_" + xf.xid).value);
-                    xf.height = parseInt(document.getElementById("InputH_" + xf.xid).value);
-                    xf.rotation = parseInt(document.getElementById("InputR_" + xf.xid).value);
-                    // xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
-                    console.log("data-xid! " + xf.xid);
-                    console.log("T " + document.getElementById("InputT_" + xf.xid).value);
-                    console.log("R " + document.getElementById("InputR_" + xf.xid).value);
-                    console.log("C " + document.getElementById("InputC_" + xf.xid).value);
-
-                    xforms.push(xf);
-                });
-                // console.log(xforms);
-                // console.log(JSON.stringify(xforms));
-                fetch("saveoffer", {
-                    method: "POST",
-                    body: JSON.stringify(xforms),
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                }).then(resp => resp.json())
-                    .then(json => {
-                        console.log(json);
-                        //location.reload();
-                    });
-                console.log("End SAVE XForms");
+            function mouseup() {
+                window.removeEventListener("mousemove", mousemove);
+                window.removeEventListener("mouseup", mouseup);
+                el.attributes["data-rotation"].value = elAngle;
+                isResizing = false;
             }
+        }
+    }
 
-            function addXForms(uid, oid) {
-                var payload = {};
-                payload.uid = uid;
-                payload.oid = oid;
+</script>
 
-                fetch("addtransform", {
-                    method: "POST",
-                    body: JSON.stringify(payload),
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                }).then(resp => resp.json())
-                    .then(json => {
-                        console.log(json)
-                        location.reload();
-                    })
+<script type="text/javascript">
+    function saveXForms() {
+        var xforms = [];
+        console.log("Beg SAVE XForms");
+        document.querySelectorAll('.XIDcard').forEach(x => {
+            var xf = {};
+            xf.xid = parseInt(x.attributes["data-xid"]?.value);
+            xf.top = parseInt(document.getElementById("InputT_" + xf.xid).value);
+            xf.left = parseInt(document.getElementById("InputL_" + xf.xid).value);
+            xf.width = parseInt(document.getElementById("InputW_" + xf.xid).value);
+            xf.height = parseInt(document.getElementById("InputH_" + xf.xid).value);
+            xf.rotation = parseInt(document.getElementById("InputR_" + xf.xid).value);
+            // xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
+            console.log("data-xid! " + xf.xid);
+            console.log("T " + document.getElementById("InputT_" + xf.xid).value);
+            console.log("R " + document.getElementById("InputR_" + xf.xid).value);
+            console.log("C " + document.getElementById("InputC_" + xf.xid).value);
+
+            xforms.push(xf);
+        });
+        // console.log(xforms);
+        // console.log(JSON.stringify(xforms));
+        fetch("saveoffer", {
+            method: "POST",
+            body: JSON.stringify(xforms),
+            headers: {
+                "Content-type": "application/json"
             }
-            function removeTransform(xid) {
-                fetch("removetransform", {
-                    method: "POST",
-                    body: xid,
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                }).then(json => {
-                    console.log(json);
-                    location.reload();
-                });
-            }
+        }).then(resp => resp.json())
+            .then(json => {
+                console.log(json);
+                //location.reload();
+            });
+        console.log("End SAVE XForms");
+    }
 
-        </script>
+    function addXForms(uid, oid) {
+        var payload = {};
+        payload.uid = uid;
+        payload.oid = oid;
+
+        fetch("addtransform", {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }).then(resp => resp.json())
+            .then(json => {
+                console.log(json)
+                location.reload();
+            })
+    }
+    function removeTransform(xid) {
+        fetch("removetransform", {
+            method: "POST",
+            body: xid,
+            headers: {
+                "Content-type": "application/json"
+            }
+        }).then(json => {
+            console.log(json);
+            location.reload();
+        });
+    }
+
+</script>
