@@ -437,7 +437,7 @@
 
             @*------------------------------   Column 3  -------------------------------*@
             <form method="post" class="imageUpload" id="imageUpload" enctype="multipart/form-data" action="ie">
-                <a onclick="document.getElementById('imageInput').click()"><i class="fas fa-arrow-left"></i></a>
+                <a onclick="document.getElementById('imageInput').click()"><i class="fas fa-upload" style="color: dodgerblue;"></i></a>
                 <input type="file" id="imageInput" name="ImageFile" onchange="this.form.submit()" style="display:none"/>
                 @*<input type="submit" value="Upload" />*@
                 @*<input type="text" id="FileName" style="display: none" value="" />*@
@@ -478,7 +478,7 @@
                         {
                             <img src="..." class="xform-thumbnail" alt="...">
                         }
-                        <a onclick="addXForms(@u.UID, @offer.OID);"><i class="fas fa-plus-square" style="color:green;"></i></a>
+                        <a onclick="addXForms(@u.UID, @offer.OID);"><i class="fas fa-arrow-alt-circle-left" style="color: dodgerblue;"></i></a>
 
                     </div>
                 }
@@ -629,12 +629,25 @@
 
                         prevX = e.clientX;
                         prevY = e.clientY;
-                        el.style.transform = 'rotate(' + elAngle + 'deg)';
+                        el.style.rotation = elAngle + "deg"; // transform = 'rotate(' + elAngle + 'deg)';
                         //el.style.rotation = elAngle;
 
                         console.log(" eXID: " + eXID);
                         console.log(" ID: " + el.id);
-                        document.getElementById("InputR_" + eXID).value = elAngle;
+
+                        console.log("T: " + el.style.top);
+                        console.log("L: " + el.style.left);
+                        console.log("W: " + el.style.width);
+                        console.log("H: " + el.style.height);
+                        console.log("R: " + el.style.rotation);
+                        console.log("C: " + el.style.transparency);
+
+                        document.getElementById("InputT_" + eXID).value = el.style.top;
+                        document.getElementById("InputL_" + eXID).value = el.style.left;
+                        document.getElementById("InputW_" + eXID).value = el.style.width;
+                        document.getElementById("InputH_" + eXID).value = el.style.height;
+                        document.getElementById("InputR_" + eXID).value = el.style.rotation; // elAngle
+                        // document.getElementById("InputC_" + eXID).value = el.style.transparency;
                         
                     }
 
@@ -661,7 +674,7 @@
                     xf.width = parseInt(document.getElementById("InputW_" + xf.xid).value);
                     xf.height = parseInt(document.getElementById("InputH_" + xf.xid).value);
                     xf.rotation = parseInt(document.getElementById("InputR_" + xf.xid).value);
-                    xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
+                    // xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
                     console.log("data-xid! " + xf.xid);
                     console.log("T " + document.getElementById("InputT_" + xf.xid).value);
                     console.log("R " + document.getElementById("InputR_" + xf.xid).value);
