@@ -510,19 +510,16 @@
         x.addEventListener("mousedown", mousedown);
     });
 
-
     let isResizing = false;
     let elAngle = 0;
-
-    //el.addEventListener("mousedown", mousedown);
 
     function mousedown(e) {
         window.addEventListener("mousemove", mousemove);
         window.addEventListener('mouseup', mouseup);
 
-        //elAngle = el.attributes["data-rotation"].value;
-        elAngle = el.style.rotation;
-        console.log("Angle MD move " + elAngle);
+        elAngle = el.attributes["data-rotation"].value;
+    
+        console.log("Angle MD move " + el.style.rotation);
 
         let prevX = e.clientX;
         let prevY = e.clientY;
@@ -580,8 +577,7 @@
             window.addEventListener("mouseup", mouseup);
 
             function mousemove(e) {
-                //el.style.transform = 'rotate(' + 0 + 'deg)';
-                //el.style.rotation = 0;
+                el.style.transform = 'rotate(' + 0 + 'deg)';
                 const rect = el.getBoundingClientRect();
                 let dX = prevX - e.clientX
                 let dY = prevY - e.clientY
@@ -603,8 +599,7 @@
                     elAngle = elAngle - dX;
                     if (elAngle > 360) { elAngle = elAngle - 360; }
                     if (elAngle < 0) { elAngle = elAngle + 360; }
-                    //el.style.transform = 'rotate(' + elAngle + 'deg)';
-                    //el.style.rotation = elAngle;
+                    el.style.transform = 'rotate(' + elAngle + 'deg)';
                     console.log(" elAngle:" + elAngle);
 
 
@@ -631,8 +626,7 @@
 
                 prevX = e.clientX;
                 prevY = e.clientY;
-                //el.style.rotation = elAngle + "deg"; // transform = 'rotate(' + elAngle + 'deg)';
-                //el.style.rotation = elAngle;
+                el.style.transform = 'rotate(' + elAngle + 'deg)';
 
                 console.log(" eXID: " + eXID);
                 console.log(" ID: " + el.id);
@@ -656,7 +650,7 @@
             function mouseup() {
                 window.removeEventListener("mousemove", mousemove);
                 window.removeEventListener("mouseup", mouseup);
-                //el.attributes["data-rotation"].value = elAngle;
+                el.attributes["data-rotation"].value = elAngle;
                 isResizing = false;
             }
         }
