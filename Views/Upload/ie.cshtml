@@ -23,15 +23,11 @@
 
 
 <style>
-.grid-main { 
-    display: grid; 
-    grid-template-columns: 
-        'imageUpload auto auto' 'canvas xform-list upload-list' 
-        'selection-list xform-list upload-list' 
-        'xformselection-list auto auto'; 
-    grid-gap: 10px; 
-
-}
+    .grid-main {
+        display: grid;
+        grid-template-columns: 'imageUpload auto auto' 'canvas xform-list upload-list' 'selection-list xform-list upload-list' 'xformselection-list auto auto';
+        grid-gap: 10px;
+    }
 
     .imageUpload {
         grid-area: imageUpload;
@@ -42,6 +38,7 @@
         margin: 5px;
         margin-left: 0px;
     }
+
     .xform-list {
         grid-area: xform-list;
     }
@@ -233,7 +230,7 @@
         border: 3px solid dodgerblue;
         height: 20rem;
         width: 20rem;
-        float:left;
+        float: left;
     }
 
     .upload-list {
@@ -315,20 +312,21 @@
                             {
                                 if (o.SID == s.SID)
                                 {
-                            <tr id="soid_@o.SOID" class="soid_row" onclick="selectSOID(@s.SID, @o.SOID)">
-                                <td id="soid_edit_button_@o.SOID">
-                                    <a onclick="deleteSelectionOption(@o.SOID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
-                                </td>
-                                <td>
-                                    <a onclick="editSelectionOption(@o.SOID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
-                                </td>
-                                <td>
-                                    <span id="soid_display_@o.SOID">@o.OName</span><span id="soid_edit_@o.SOID" style="display:none;"><input id="soid_input_@o.SOID" type="text" value="@o.OName" /></span>
-                                </td>
-                                <td id="soid_save_button_@o.SOID" style="display:none;">
-                                    <a onclick="saveSelectionOption(@o.SOID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
-                                </td>
-                            </tr>
+                                    <tr id="soid_@o.SOID" class="soid_row" onclick="selectSOID(@s.SID, @o.SOID)">
+                                        <td id="soid_edit_button_@o.SOID">
+                                            <a onclick="deleteSelectionOption(@o.SOID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
+                                        </td>
+                                        <td>
+                                            <a onclick="editSelectionOption('soid', @o.SOID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
+                                        </td>
+                                        <td>
+                                            <span id="soid_display_@o.SOID">@o.OName</span>
+                                            <span id="soid_edit_@o.SOID" style="display:none;"><input id="soid_input_@o.SOID" type="text" value="@o.OName" /></span>
+                                        </td>
+                                        <td id="soid_save_button_@o.SOID" style="display:none;">
+                                            <a onclick="saveSelectionOption('soid', @o.SOID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
+                                        </td>
+                                    </tr>
 
                                 }
                             }
@@ -341,7 +339,7 @@
             <div class="xformselection-list">
                 @foreach (var u in offer.OItems)
                 {
-                    <div class="card frmimg" data-xid="@u.IID" >
+                    <div class="card frmimg" data-xid="@u.IID">
                         @offer.XFormSelections.FirstOrDefault(x => x.IID == u.IID).
                         @u.IID
 
@@ -351,6 +349,7 @@
             </div>
 
         </td>
+
         <td style="vertical-align:top">
 
             @*------------------------------   Column 2  -------------------------------*@
@@ -363,78 +362,53 @@
             <div class="xform-list">
                 @foreach (var u in offer.XForms)
                 {
-                <div class="XIDcard" data-xid="@u.XID" style="width: 30rem; border-color:ActiveBorder; display:flex; flex-wrap:nowrap;" draggable="true">
-                    @if (u.UID != null && u.UID > 0)
-                    {
+                    <div class="XIDcard" data-xid="@u.XID" style="width: 30rem; border-color:ActiveBorder; display:flex; flex-wrap:nowrap;" draggable="true">
+                        @if (u.UID != null && u.UID > 0)
+                        {
 
-                        <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
-
-                        
+                            <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
 
 
-                        <Table style="justify-items:right">
-                            <tr class="xform-row">
-                                <td>
-                                    <a>   T </a><input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" />
-                                </td>
-                                <td>
-                                    <a>   W </a><input type="text" id="InputW_@u.XID" style="width:3rem" value="@u.Width" />
-                                </td>
-                                <td>
-                                    <a>   R </a><input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" />
-                                </td>
-                            </tr>
-                            <tr class="xform-row">
-                                <td>
-                                    <a>   L </a><input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" />
-                                </td>
-                                <td>
-                                    <a>   H </a><input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" />
-                                </td>
-                                <td>
-                                    <a>   C </a><input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
-                                </td>
-                            </tr>
-                        </Table>
-                        <div style="padding:0px 4px">
-                            <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
-                            <a onclick="editSelectionOption(5);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
-                        </div>
-                        <p>@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name</p>
-                    }
-                    else
-                    {
-                        <img src="..." class="xform-thumbnail" alt="...">
-                    }
-                </div>
+
+
+                            <Table style="justify-items:right">
+                                <tr class="xform-row">
+                                    <td>
+                                        <a>   T </a><input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" />
+                                    </td>
+                                    <td>
+                                        <a>   W </a><input type="text" id="InputW_@u.XID" style="width:3rem" value="@u.Width" />
+                                    </td>
+                                    <td>
+                                        <a>   R </a><input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" />
+                                    </td>
+                                </tr>
+                                <tr class="xform-row">
+                                    <td>
+                                        <a>   L </a><input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" />
+                                    </td>
+                                    <td>
+                                        <a>   H </a><input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" />
+                                    </td>
+                                    <td>
+                                        <a>   C </a><input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
+                                    </td>
+                                </tr>
+                            </Table>
+                            <div style="padding:0px 4px">
+                                <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
+                                <a onclick="editSelectionOption(5);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
+                            </div>
+                            <p>@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name</p>
+                        }
+                        else
+                        {
+                            <img src="..." class="xform-thumbnail" alt="...">
+                        }
+                    </div>
                 }
 
             </div>
-
-            <script type="text/javascript">
-                function editSelectionOption(soid) {
-                    document.getElementById(`soid_display_${soid}`).style.display = "none";
-                    document.getElementById(`soid_edit_${soid}`).style.display = "block";
-                    document.getElementById(`soid_edit_button_${soid}`).style.display = "none";
-                    document.getElementById(`soid_save_button_${soid}`).style.display = "block";
-                }
-
-                function saveSelectionOption(soid) {
-                    document.getElementById(`soid_display_${soid}`).style.display = "block";
-                    document.getElementById(`soid_edit_${soid}`).style.display = "none";
-                    document.getElementById(`soid_edit_button_${soid}`).style.display = "block";
-                    document.getElementById(`soid_save_button_${soid}`).style.display = "none";
-                    document.getElementById(`soid_display_${soid}`).innerHTML = document.getElementById(`soid_input_${soid}`).value;
-                }
-
-                function selectSOID(sid, soid) {
-                    document.querySelectorAll(`#sid_${sid} .soid_row`).forEach(sr => {
-                        sr.style.backgroundColor = "";
-                    });
-                    document.getElementById(`soid_${soid}`).style.backgroundColor = 'rgba(150, 150, 200, 0.30)';
-                    //put selection response here
-                }
-            </script>
 
         </td>
         <td style="vertical-align:top; border-collapse: collapse;">
@@ -442,11 +416,11 @@
             @*------------------------------   Column 3  -------------------------------*@
             <form method="post" class="imageUpload" id="imageUpload" enctype="multipart/form-data" action="ie">
                 <a onclick="document.getElementById('imageInput').click()"><i class="fas fa-upload" style="color: dodgerblue;"></i></a>
-                <input type="file" id="imageInput" name="ImageFile" onchange="this.form.submit()" style="display:none"/>
+                <input type="file" id="imageInput" name="ImageFile" onchange="this.form.submit()" style="display:none" />
                 @*<input type="submit" value="Upload" />*@
                 @*<input type="text" id="FileName" style="display: none" value="" />*@
             </form>
-            
+
             <script type="text/javascript">
                 function UploadImage() {
                     console.log("UploadMe");
@@ -458,15 +432,15 @@
             </script>
 
             @*<form method="post" class="imageUpload" enctype="multipart/form-data" action="ie">
-            <input type="file" id="imageInput" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
-            <input type="submit" value="Upload" />
-            <input type="text" id="FileName" style="display: none" value="" />
-            <a onclick="UploadImage();"><i class="fas fa-upload"></i></a>
-        </form>
-        <script type="text/javascript">
-            function UploadImage() {
-                document.getElementById('FileName').value = this.value.split('.')[1];
-            }*@
+                    <input type="file" id="imageInput" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
+                    <input type="submit" value="Upload" />
+                    <input type="text" id="FileName" style="display: none" value="" />
+                    <a onclick="UploadImage();"><i class="fas fa-upload"></i></a>
+                </form>
+                <script type="text/javascript">
+                    function UploadImage() {
+                        document.getElementById('FileName').value = this.value.split('.')[1];
+                    }*@
 
             </script>
 
@@ -489,10 +463,34 @@
             </div>
 
         </td>
-        </tr>
+    </tr>
 </table>
 
+<script type="text/javascript">
+    function editSelectionOption(IDtype, ID) {
+        document.getElementById(`${IDtype}_display_${ID}`).style.display = "none";
+        document.getElementById(`${IDtype}_edit_${ID}`).style.display = "block";
+        document.getElementById(`${IDtype}_edit_button_${ID}`).style.display = "none";
+        document.getElementById(`${IDtype}_save_button_${ID}`).style.display = "block";
+    }
 
+    function saveSelectionOption(IDtype, ID) {
+        document.getElementById(`${IDtype}_display_${ID}`).style.display = "block";
+        document.getElementById(`${IDtype}_edit_${ID}`).style.display = "none";
+        document.getElementById(`${IDtype}_edit_button_${ID}`).style.display = "block";
+        document.getElementById(`${IDtype}_save_button_${ID}`).style.display = "none";
+        document.getElementById(`${IDtype}_display_${ID}`).innerHTML = document.getElementById(`${IDtype}_input_${ID}`).value;
+        //document.getElementById(`soid_display_${soid}`).innerHTML = document.getElementById(`soid_input_${soid}`).value;
+    }
+
+    function selectSOID(sid, soid) {
+        document.querySelectorAll(`#sid_${sid} .soid_row`).forEach(sr => {
+            sr.style.backgroundColor = "";
+        });
+        document.getElementById(`soid_${soid}`).style.backgroundColor = 'rgba(150, 150, 200, 0.30)';
+        //put selection response here
+    }
+</script>
 
 @*------------------------------   Mouse Control  -------------------------------*@
 <script>
@@ -522,7 +520,7 @@
         window.addEventListener('mouseup', mouseup);
 
         elAngle = el.attributes["data-rotation"].value;
-    
+
         console.log("Angle MD move " + el.style.rotation);
 
         let prevX = e.clientX;
@@ -648,7 +646,7 @@
                 document.getElementById("InputH_" + eXID).value = el.style.height;
                 document.getElementById("InputR_" + eXID).value = el.style.rotation; // elAngle
                 // document.getElementById("InputC_" + eXID).value = el.style.transparency;
-                        
+
             }
 
             function mouseup() {
