@@ -521,10 +521,9 @@
 
         elAngle = el.attributes["data-rotation"].value;
 
-        console.log("Angle MD move " + el.style.rotation);
-
         let prevX = e.clientX;
         let prevY = e.clientY;
+        console.log("e class list :" + e.target.classList)
 
         document.querySelectorAll('.XFImg').forEach(xf => {
             xf.style.zIndex = 100;
@@ -544,9 +543,11 @@
             el.style.top = rect.top - newY + "px";
             prevX = e.clientX;
             prevY = e.clientY;
-            el.style.transform = 'rotate(' + elAngle + 'deg)';
-            console.log("mouse move !! " + el.style.rotation);
 
+            el.style.transform = 'rotate(' + elAngle + 'deg)';
+            console.log("mouse move !! " + elAngle);
+
+            UpdateXID(eXID);
         }
 
         function mouseup() {
@@ -567,6 +568,8 @@
         }
 
         function mousedown(e) {
+            console.log("currentdrag class list :" + e.target.classList)
+
             currentdrag = e.target;
             isResizing = true;
 
@@ -593,6 +596,7 @@
 
 
                 console.log(" dX:" + dX + "       dY:" + dY);
+                console.log("class list :" + currentdrag.classList)
 
                 if (currentdrag.classList.contains('sc')) { dX = scaleC * dY; }
 
@@ -637,16 +641,19 @@
                 console.log("L: " + el.style.left);
                 console.log("W: " + el.style.width);
                 console.log("H: " + el.style.height);
-                console.log("R: " + el.style.rotation);
+                console.log("R: " + elAngle);
                 console.log("C: " + el.style.transparency);
 
-                document.getElementById("InputT_" + eXID).value = el.style.top;
-                document.getElementById("InputL_" + eXID).value = el.style.left;
-                document.getElementById("InputW_" + eXID).value = el.style.width;
-                document.getElementById("InputH_" + eXID).value = el.style.height;
-                document.getElementById("InputR_" + eXID).value = el.style.rotation; // elAngle
-                // document.getElementById("InputC_" + eXID).value = el.style.transparency;
+                UpdateXID(eXID);
+            }
 
+            function UpdateXID(ID) {
+                document.getElementById("InputT_" + ID).value = el.style.top;
+                document.getElementById("InputL_" + ID).value = el.style.left;
+                document.getElementById("InputW_" + ID).value = el.style.width;
+                document.getElementById("InputH_" + ID).value = el.style.height;
+                document.getElementById("InputR_" + ID).value = elAngle;
+                // document.getElementById("InputC_" + ID).value = el.style.transparency;
             }
 
             function mouseup() {
