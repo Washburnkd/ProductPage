@@ -12,10 +12,11 @@ namespace ProductPage.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Upload> Uploads { get; set; }
         public DbSet<Selection> Selections { get; set; }
+        public DbSet<SelectionOption> SelectionOptions { get; set; }
         public DbSet<XForm> XForms { get; set; }
         public DbSet<XFormSelection> XFormSelections { get; set; }
-        public DbSet<SelectionOption> SelectionOptions { get; set; }
         public DbSet<OItem> OItems { get; set; }
+        public DbSet<ItemSelection> ItemSelections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

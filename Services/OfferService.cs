@@ -18,12 +18,13 @@ namespace ProductPage
         {
             var o = new OfferModel();
             o.OID = oid;
-            o.Selections = _context.Selections.Where(m => m.OID == oid).ToList();
-            o.XForms = _context.XForms.Where(m => m.OID == oid).ToList();
             o.Uploads = _context.Uploads.ToList();
+            o.Selections = _context.Selections.Where(m => m.OID == oid).ToList();
             o.SelectionOptions = _context.SelectionOptions.Where(m => m.OID == oid).ToList();
-            o.OItems = _context.OItems.Where(m => m.OID == oid).ToList();
+            o.XForms = _context.XForms.Where(m => m.OID == oid).ToList();
             o.XFormSelections = _context.XFormSelections.Where(m => m.OID == oid).ToList();
+            o.OItems = _context.OItems.Where(m => m.OID == oid).ToList();
+            o.ItemSelections = _context.ItemSelections.Where(m => m.OID == oid).ToList();
             return o;
         }
 

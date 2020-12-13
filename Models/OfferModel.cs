@@ -13,6 +13,7 @@ namespace ProductPage.Models
         public List<Selection> Selections { get; set; }
         public List<SelectionOption> SelectionOptions { get; set; }
         public List<OItem> OItems { get; set; }
+        public List<ItemSelection> ItemSelections { get; set; }
         public List<XForm> XForms { get; set; }
         public List<XFormSelection> XFormSelections { get; set; }
         
