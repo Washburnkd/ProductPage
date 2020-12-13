@@ -395,10 +395,23 @@
                                     </td>
                                 </tr>
                             </Table>
+
                             <div style="padding:0px 4px">
+                                
                                 <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
-                                <a onclick="editSelectionOption(5);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
+                                
+
+                                <a id="xid_edit_button_@u.XID" onclick="editSelectionOption('xid', @u.XID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
+                                
+                                <span id="xid_display_@u.XID">@u.XFormName</span>
+                                
+                                <span id="xid_edit_@u.XID" style="display:none;"><input id="soid_input_@u.XID" type="text" value="@u.XFormName" /></span>
+                                
+                                <div id="xid_save_button_@u.XID" style="display: none;">
+                                    <a onclick="saveSelectionOption('xid', @u.XID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
+                                </div>
                             </div>
+
                             <p>@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name</p>
                         }
                         else
@@ -410,7 +423,7 @@
 
             </div>
 
-        </td>
+        </div>
         <td style="vertical-align:top; border-collapse: collapse;">
 
             @*------------------------------   Column 3  -------------------------------*@
