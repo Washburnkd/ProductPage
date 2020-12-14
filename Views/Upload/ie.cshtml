@@ -443,7 +443,7 @@
                                     <a>   C </a>
                                 </td>
                                 <td>
-                                    <input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
+                                    <input type="text" id="InputC_@u.XID" style="width:3rem" @*value="@u.Transparency"*@ />
                                 </td>
                             </tr>
                         </Table>
@@ -735,7 +735,7 @@
                 console.log("W: " + el.style.width);
                 console.log("H: " + el.style.height);
                 console.log("R: " + elAngle);
-                console.log("C: " + el.style.transparency);
+                //console.log("C: " + el.style.transparency);
 
                 UpdateXID(eXID);
             }
@@ -746,7 +746,7 @@
                 document.getElementById("InputW_" + ID).value = el.style.width;
                 document.getElementById("InputH_" + ID).value = el.style.height;
                 document.getElementById("InputR_" + ID).value = elAngle;
-                // document.getElementById("InputC_" + ID).value = el.style.transparency;
+                //document.getElementById("InputC_" + ID).value = el.style.transparency;
             }
 
             function mouseup() {
@@ -771,8 +771,10 @@
             xf.left = parseInt(document.getElementById("InputL_" + xf.xid).value);
             xf.width = parseInt(document.getElementById("InputW_" + xf.xid).value);
             xf.height = parseInt(document.getElementById("InputH_" + xf.xid).value);
-            xf.rotation = parseInt(document.getElementById("InputR_" + xf.xid).value);
-            // xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
+            xf.rotation = parseFloat(document.getElementById("InputR_" + xf.xid).value);
+            //xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
+            //xf.ZOrder = parseFloat(document.getElementById("InputZ_" + xf.xid).value);
+            xf.XFormName = document.getElementById("xid_display_" + xf.xid).value;
             console.log("data-xid! " + xf.xid);
             console.log("T " + document.getElementById("InputT_" + xf.xid).value);
             console.log("R " + document.getElementById("InputR_" + xf.xid).value);

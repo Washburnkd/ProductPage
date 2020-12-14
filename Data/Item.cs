@@ -11,7 +11,7 @@ namespace ProductPage.Data
     public class OItem
     {
         [Key]
-        public long IID { get; set; }
+        public int IID { get; set; }
         public long AID { get; set; }
         public long OID { get; set; }
         public string Selections { get; set; }

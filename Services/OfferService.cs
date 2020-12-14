@@ -41,7 +41,9 @@ namespace ProductPage
                 found.Width = x.Width;
                 found.Height = x.Height;
                 found.Rotation = x.Rotation;
-                found.Transparency = x.Transparency;
+                //found.Transparency = x.Transparency;
+                //found.ZOrder = x.ZOrder;
+                found.XFormName = x.XFormName;
                 _context.XForms.Update(found);
                 _context.SaveChanges();
             }
@@ -68,23 +70,25 @@ namespace ProductPage
             n.Left = 100;
             n.Width = 100;
             n.Height = 100;
-            n.Rotation = 0;
-            n.Transparency = 1;
+            n.Rotation = 0.0;
+            //n.Transparency = 100;
+            //n.ZOrder = 100;
+            n.XFormName = "";
             _context.XForms.Add(n);
             var result = _context.SaveChanges();
             return result==1;
         }
 
-        public bool AddItemXForms(int oid, int iid, int xid)
-        {
-            var n = new ItemXForm();
-            n.AID = 1;
-            n.OID = oid;
-            n.IID = iid;
-            n.XID = xid;
-            _context.ItemXForms.Add(n);
-            var result = _context.SaveChanges();
-            return result == 1;
-        }
+        //public bool AddItemXForms(int oid, int iid, int xid)
+        //{
+        //    var n = new ItemXForm();
+        //    n.AID = 1;
+        //    n.OID = oid;
+        //    n.IID = iid;
+        //    n.XID = xid;
+        //    _context.ItemXForms.Add(n);
+        //    var result = _context.SaveChanges();
+        //    return result == 1;
+        //}
     }
 }
