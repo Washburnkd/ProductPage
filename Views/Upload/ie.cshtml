@@ -307,7 +307,7 @@
                 @foreach (var s in offer.Selections)
                 {
 
-                    <div id="sid_@s.SID" class="card" data-sid="@s.SID" style="width: 18rem;">
+                    <div id="sid_@s.SID" class="card" data-sid="@s.SID" data-sel="0" style="width: 18rem;">
                         @*@uploads.UploadList.FirstOrDefault(x => x.UID == s.UID).Name*@
                         <span style="display: flex; flex-wrap: nowrap;"> <a style="padding: 0px 1px"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a> <a href="#" style="padding: 0px 1px"><i class="fas fa-edit" style="color:dodgerblue;"></i></a> @s.Option </span>
                         <table>
@@ -331,7 +331,6 @@
                                         </td>
 
                                     </tr>
-
                                 }
                             }
                             <tr>
@@ -348,14 +347,15 @@
             <div style="height:2rem;">
 
             </div>
-            <div class="xformselection-list">
+
+            <div class="ItemList" id="ItemList" data-SelectedItem="0">
                 <table>
 
                     @foreach (var u in offer.OItems)
                     {
                         <tr>
                             <td>
-                                <div class="card" data-xid="@u.IID" style="width:3rem; height:3rem; margin-right: 10px;">
+                                <div class="card" id="Item_@u.IID" data-iid="@u.IID" style="width:3rem; height:3rem; margin-right: 10px;">
                                     <a>@u.IID</a>
                                 </div>
                             </td>
@@ -392,10 +392,18 @@
                     @if (u.UID != null && u.UID > 0)
                     {
 
+                        <table>
+                            <tr id="xid_@u.XID" class="xid_row">
+                                <td id="xid_visible_button_@u.XID" style="display:none; width:2rem;">
+                                    <a onclick="visibleSelectionOption('xid', @u.XID);"><i class="far fa-eye" style="color:chartreuse;"></i></a>
+                                </td>
+                                <td id="xid_hidden_button_@u.XID" style="width:2rem;">
+                                    <a onclick="hiddenSelectionOption('xid', @u.XID);"><i class="far fa-eye-slash" style="color:darkgray;"></i></a>
+                                </td>
+                            </tr>
+                        </table>
+
                         <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
-
-
-
 
                         <Table style="justify-items:right; margin-left:10px">
                             <tr class="xform-row">
@@ -464,19 +472,19 @@
 
                         @*<div style="padding:0px 4px">
 
-                            <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
+                <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
 
 
-                            <a id="xid_edit_button_@u.XID" onclick="editSelectionOption('xid', @u.XID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
+                <a id="xid_edit_button_@u.XID" onclick="editSelectionOption('xid', @u.XID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
 
-                            <span id="xid_display_@u.XID">@u.XFormName</span>
+                <span id="xid_display_@u.XID">@u.XFormName</span>
 
-                            <span id="xid_edit_@u.XID" style="display:none;"><input id="soid_input_@u.XID" type="text" value="@u.XFormName" /></span>
+                <span id="xid_edit_@u.XID" style="display:none;"><input id="soid_input_@u.XID" type="text" value="@u.XFormName" /></span>
 
-                            <div id="xid_save_button_@u.XID" style="display: none;">
-                                <a onclick="saveSelectionOption('xid', @u.XID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
-                            </div>
-                        </div>*@
+                <div id="xid_save_button_@u.XID" style="display: none;">
+                    <a onclick="saveSelectionOption('xid', @u.XID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
+                </div>
+            </div>*@
 
                         @*<p>@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name</p>*@
                     }
@@ -549,6 +557,36 @@
 </table>
 
 <script type="text/javascript">
+    function visibleSelectionOption(IDtype, ID) {
+        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "block";
+        document.getElementById(`${IDtype}_visible_button_${ID}`).style.display = "none";
+    }
+
+    function hiddenSelectionOption(IDtype, ID) {
+        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "none";
+        document.getElementById(`${IDtype}_visible_button_${ID}`).style.display = "block";
+
+
+        //var payload = {};
+        //payload.uid = uid;
+        //payload.oid = oid;
+
+        //fetch("addtransform", {
+        //    method: "POST",
+        //    body: JSON.stringify(payload),
+        //    headers: {
+        //        "Content-type": "application/json"
+        //    }
+        //}).then(resp => resp.json())
+        //    .then(json => {
+        //        console.log(json)
+        //        location.reload();
+        //    })
+
+
+
+    }
+
     function editSelectionOption(IDtype, ID) {
         document.getElementById(`${IDtype}_display_${ID}`).style.display = "none";
         document.getElementById(`${IDtype}_edit_${ID}`).style.display = "block";

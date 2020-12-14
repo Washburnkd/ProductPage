@@ -28,8 +28,6 @@ namespace ProductPage.Controllers
 
         public IActionResult Index()
         {
-
-            
             return View(_uploads);
         }
 

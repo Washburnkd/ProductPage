@@ -7,14 +7,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductPage.Data
 {
-    [Table("45 ItemSelection")]
-    public class ItemSelection
+    [Table("48 ItemXForm")]
+    public class ItemXForm
     {
         [Key]
-        public int ISID { get; set; }
+        public int IXID { get; set; }
         public int AID { get; set; }
         public int OID { get; set; }
         public int IID { get; set; }
-        public int SOID { get; set; }
+        public int XID { get; set; }
     }
 }

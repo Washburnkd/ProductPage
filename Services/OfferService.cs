@@ -21,10 +21,10 @@ namespace ProductPage
             o.Uploads = _context.Uploads.ToList();
             o.Selections = _context.Selections.Where(m => m.OID == oid).ToList();
             o.SelectionOptions = _context.SelectionOptions.Where(m => m.OID == oid).ToList();
-            o.XForms = _context.XForms.Where(m => m.OID == oid).ToList();
-            o.XFormSelections = _context.XFormSelections.Where(m => m.OID == oid).ToList();
             o.OItems = _context.OItems.Where(m => m.OID == oid).ToList();
             o.ItemSelections = _context.ItemSelections.Where(m => m.OID == oid).ToList();
+            o.XForms = _context.XForms.Where(m => m.OID == oid).ToList();
+            o.ItemXForms = _context.ItemXForms.Where(m => m.OID == oid).ToList();
             return o;
         }
 
@@ -73,6 +73,18 @@ namespace ProductPage
             _context.XForms.Add(n);
             var result = _context.SaveChanges();
             return result==1;
+        }
+
+        public bool AddItemXForms(int oid, int iid, int xid)
+        {
+            var n = new ItemXForm();
+            n.AID = 1;
+            n.OID = oid;
+            n.IID = iid;
+            n.XID = xid;
+            _context.ItemXForms.Add(n);
+            var result = _context.SaveChanges();
+            return result == 1;
         }
     }
 }

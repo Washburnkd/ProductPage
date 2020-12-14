@@ -15,7 +15,6 @@ namespace ProductPage.Models
         public List<OItem> OItems { get; set; }
         public List<ItemSelection> ItemSelections { get; set; }
         public List<XForm> XForms { get; set; }
-        public List<XFormSelection> XFormSelections { get; set; }
-        
+        public List<ItemXForm> ItemXForms { get; set; }
     }
 }
