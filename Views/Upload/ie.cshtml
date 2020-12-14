@@ -388,107 +388,103 @@
             <div class="xform-list">
                 @foreach (var u in offer.XForms)
                 {
-                <div class="XIDcard" data-xid="@u.XID" style="border:solid; border-color:ActiveBorder; display:flex; flex-wrap:nowrap; draggable="true">
-                    @if (u.UID != null && u.UID > 0)
-                    {
+                    <div class="XIDcard" data-xid="@u.XID" style="border:solid; border-color:ActiveBorder; display:flex; flex-wrap:nowrap;" draggable="true">
+                        @if (u.UID != null && u.UID > 0)
+                        {
+                            <table>
+                                <tr id="xid_@u.XID" class="xid_row">
+                                    <td id="xid_visible_button_@u.XID" style="display:none; width:2rem;">
+                                        <a onclick="visibleSelectionOption('xid', @u.XID);"><i class="far fa-eye" style="color:chartreuse;"></i></a>
+                                    </td>
+                                    <td id="xid_hidden_button_@u.XID" style="width:2rem;">
+                                        <a onclick="hiddenSelectionOption('xid', @u.XID);"><i class="far fa-eye-slash" style="color:darkgray;"></i></a>
+                                    </td>
+                                </tr>
+                            </table>
 
-                        <table>
-                            <tr id="xid_@u.XID" class="xid_row">
-                                <td id="xid_visible_button_@u.XID" style="display:none; width:2rem;">
-                                    <a onclick="visibleSelectionOption('xid', @u.XID);"><i class="far fa-eye" style="color:chartreuse;"></i></a>
-                                </td>
-                                <td id="xid_hidden_button_@u.XID" style="width:2rem;">
-                                    <a onclick="hiddenSelectionOption('xid', @u.XID);"><i class="far fa-eye-slash" style="color:darkgray;"></i></a>
-                                </td>
-                            </tr>
-                        </table>
+                            <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
 
-                        <img src="~/img/@offer.Uploads.FirstOrDefault(x=>x.UID==u.UID).Name" class="xform-thumbnail" alt="...">
+                            <Table style="justify-items:right; margin-left:10px">
+                                <tr class="xform-row">
+                                    <td style="width:1rem">
+                                        <a>   T </a>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" />
+                                    </td>
+                                    <td style="width:1rem; margin-left:5px">
+                                        <a>   W </a>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="InputW_@u.XID" style="width:3rem" value="@u.Width" />
+                                    </td>
+                                    <td style="width:1rem; margin-left:5px">
+                                        <a>   R </a>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" />
+                                    </td>
+                                </tr>
+                                <tr class="xform-row">
+                                    <td style="width:1rem">
+                                        <a>   L </a>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" />
+                                    </td>
+                                    <td style="width:1rem; margin-left:5px">
+                                        <a>   H </a>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" />
+                                    </td>
+                                    <td style="width:1rem; margin-left:5px">
+                                        <a>   Tr </a>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
+                                    </td>
+                                </tr>
+                            </Table>
 
-                        <Table style="justify-items:right; margin-left:10px">
-                            <tr class="xform-row">
-                                <td style="width:1rem">
-                                    <a>   T </a>
-                                </td>
-                                <td>
-                                    <input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" />
-                                </td>
-                                <td style="width:1rem; margin-left:5px">
-                                    <a>   W </a>
-                                </td>
-                                <td>
-                                    <input type="text" id="InputW_@u.XID" style="width:3rem" value="@u.Width" />
-                                </td>
-                                <td style="width:1rem; margin-left:5px">
-                                    <a>   R </a>
-                                </td>
-                                <td>
-                                    <input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" />
-                                </td>
-                            </tr>
-                            <tr class="xform-row">
-                                <td style="width:1rem">
-                                    <a>   L </a>
-                                </td>
-                                <td>
-                                    <input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" />
-                                </td>
-                                <td style="width:1rem; margin-left:5px">
-                                    <a>   H </a>
-                                </td>
-                                <td>
-                                    <input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" />
-                                </td>
-                                <td style="width:1rem; margin-left:5px">
-                                    <a>   Tr </a>
-                                </td>
-                                <td>
-                                    <input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
-                                </td>
-                            </tr>
-                        </Table>
+                            <table style="margin-left:15px">
+                                <tr id="xid_@u.XID" class="xid_row">
+                                    <td>
+                                        <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
+                                    </td>
+                                    <td id="xid_edit_button_@u.XID">
+                                        <a onclick="editSelectionOption('xid', @u.XID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
+                                    </td>
+                                    <td id="xid_save_button_@u.XID" style="display:none;">
+                                        <a onclick="saveSelectionOption('xid', @u.XID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
+                                    </td>
+                                    <td>
+                                        <span id="xid_display_@u.XID">@u.XFormName</span>
+                                        <span id="xid_edit_@u.XID" style="display:none;"><input id="xid_input_@u.XID" type="text" value="@u.XFormName" /></span>
+                                    </td>
 
-
-
-                        <table style="margin-left:15px">
-                            <tr id="xid_@u.XID" class="xid_row">
-                                <td>
-                                    <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
-                                </td>
-                                <td id="xid_edit_button_@u.XID">
-                                    <a onclick="editSelectionOption('xid', @u.XID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
-                                </td>
-                                <td id="xid_save_button_@u.XID" style="display:none;">
-                                    <a onclick="saveSelectionOption('xid', @u.XID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
-                                </td>
-                                <td>
-                                    <span id="xid_display_@u.XID">@u.XFormName</span>
-                                    <span id="xid_edit_@u.XID" style="display:none;"><input id="xid_input_@u.XID" type="text" value="@u.XFormName" /></span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td style="width:1rem; margin-left:5px">
-                                    <a>   Z </a>
-                                </td>
-                                <td>
-                                    <input type="text" id="InputZ_@u.XID" style="width:3rem" value="@u.ZOrder" />
-                                </td>
-                            </tr>
-                        </table>
-
-                        @*<p>@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name</p>*@
-                    }
-                    else
-                    {
-                        <img src="..." class="xform-thumbnail" alt="...">
-                    }
-                </div>
+                                </tr>
+                                <tr>
+                                    <td style="width:1rem; margin-left:5px">
+                                        <a>   Z </a>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="InputZ_@u.XID" style="width:3rem" value="@u.ZOrder" />
+                                    </td>
+                                </tr>
+                            </table>                            
+                        }
+                        else
+                        {
+                            <img src="..." class="xform-thumbnail" alt="...">
+                        }
+                    </div>
                 }
 
             </div>
 
-        </div>
+        </td>
+
         <td style="vertical-align:top; border-collapse: collapse;">
 
             @*------------------------------   Column 3  -------------------------------*@
@@ -510,8 +506,6 @@
                 function GetOName(str) {
                     return offer.SelectionOptions[Integer.parseInt(str)].OName;
                 }
-            </script>
-
             </script>
 
             <div class="upload-list">
@@ -583,7 +577,8 @@
         document.getElementById(`${IDtype}_display_${ID}`).innerHTML = document.getElementById(`${IDtype}_input_${ID}`).value;
         //document.getElementById(`soid_display_${soid}`).innerHTML = document.getElementById(`soid_input_${soid}`).value;
     }
-
+    selectSOID(1, 1);
+    selectSOID(2, 1);
     function selectSOID(sid, soid) {
         document.querySelectorAll(`#sid_${sid} .soid_row`).forEach(sr => {
             sr.style.backgroundColor = "";
