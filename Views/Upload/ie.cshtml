@@ -469,23 +469,6 @@
                             </tr>
                         </table>
 
-
-                        @*<div style="padding:0px 4px">
-
-                <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
-
-
-                <a id="xid_edit_button_@u.XID" onclick="editSelectionOption('xid', @u.XID);"><i class="fas fa-edit" style="color:dodgerblue;"></i></a>
-
-                <span id="xid_display_@u.XID">@u.XFormName</span>
-
-                <span id="xid_edit_@u.XID" style="display:none;"><input id="soid_input_@u.XID" type="text" value="@u.XFormName" /></span>
-
-                <div id="xid_save_button_@u.XID" style="display: none;">
-                    <a onclick="saveSelectionOption('xid', @u.XID);"><i class="fas fa-save" style="color:dodgerblue;"></i></a>
-                </div>
-            </div>*@
-
                         @*<p>@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name</p>*@
                     }
                     else
@@ -521,17 +504,6 @@
                 }
             </script>
 
-            @*<form method="post" class="imageUpload" enctype="multipart/form-data" action="ie">
-                    <input type="file" id="imageInput" name="ImageFile" onchange="document.getElementById('FileName').value = this.value.split('.')[1];" />
-                    <input type="submit" value="Upload" />
-                    <input type="text" id="FileName" style="display: none" value="" />
-                    <a onclick="UploadImage();"><i class="fas fa-upload"></i></a>
-                </form>
-                <script type="text/javascript">
-                    function UploadImage() {
-                        document.getElementById('FileName').value = this.value.split('.')[1];
-                    }*@
-
             </script>
 
             <div class="upload-list">
@@ -558,8 +530,9 @@
 
 <script type="text/javascript">
     function visibleSelectionOption(IDtype, ID) {
-        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "block";
         document.getElementById(`${IDtype}_visible_button_${ID}`).style.display = "none";
+        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "block";
+        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "block";
     }
 
     function hiddenSelectionOption(IDtype, ID) {

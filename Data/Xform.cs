@@ -14,6 +14,7 @@ namespace ProductPage.Data
         public int XID { get; set; }
         public int AID { get; set; }
         public int OID { get; set; }
+        public int ZOrder { get; set; }
         public string XFormName { get; set; }
         public int UID { get; set; }
         public int Top { get; set; }
@@ -21,7 +22,7 @@ namespace ProductPage.Data
         public int Width { get; set; }
         public int Height { get; set; }
         public double Rotation { get; set; }
-        public int Transparency { get; set; }
+        public double Transparency { get; set; }
         public bool Crop { get; set; }
     }
 }
