@@ -41,8 +41,8 @@ namespace ProductPage
                 found.Width = x.Width;
                 found.Height = x.Height;
                 found.Rotation = x.Rotation;
-                //found.Transparency = x.Transparency;
-                //found.ZOrder = x.ZOrder;
+                found.Transparency = x.Transparency;
+                found.ZOrder = x.ZOrder;
                 found.XFormName = x.XFormName;
                 _context.XForms.Update(found);
                 _context.SaveChanges();
@@ -71,8 +71,8 @@ namespace ProductPage
             n.Width = 100;
             n.Height = 100;
             n.Rotation = 0.0;
-            //n.Transparency = 100;
-            //n.ZOrder = 100;
+            n.Transparency = 1.0;
+            n.ZOrder = 100;
             n.XFormName = "";
             _context.XForms.Add(n);
             var result = _context.SaveChanges();

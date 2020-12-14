@@ -274,27 +274,27 @@
                     {
 
                         @*< div class="XFImg" id = "XFImg_@u.XID" data-xid="@u.XID" style="transform: rotate(@u.Rotation deg); height: @u.Height px; width: @u.Width px;">*@
-                        <div class="XFImg" id="XFImg_@u.XID" data-xid="@u.XID" data-rotation="@u.Rotation" style="position:absolute;top:@(u.Top)px; left:@(u.Left)px;  height:@(u.Height)px; width:@(u.Width)px; transform:rotate(@(u.Rotation)deg);">
-                            @*; left: @u.Left; top: @u.Top; height: @u.Height; width: @u.Width;*@
-                            <div class="drag nw"></div>
-                            <div class="drag n"></div>
-                            <div class="drag ne"></div>
-                            <div class="drag e"></div>
-                            <div class="drag se"></div>
-                            <div class="drag s"></div>
-                            <div class="drag sw"></div>
-                            <div class="drag w"></div>
-                            <div class="drag sc"></div>
-                            <div class="drag rt"></div>
-                            @if (u.UID != null && u.UID > 0)
-                            {
-                                <img src="~/img/@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name" class="image01" alt="...">
-                            }
-                            else
-                            {
-                                <img src="..." class="image01" alt="...">
-                            }
-                        </div>
+                <div class="XFImg" id="XFImg_@u.XID" data-xid="@u.XID" data-rotation="@u.Rotation" style="position:absolute;top:@(u.Top)px; left:@(u.Left)px;  height:@(u.Height)px; width:@(u.Width)px; opacity:@u.Transparency; z-index:@u.ZOrder" transform:rotate(@(u.Rotation)deg);">
+                    @*; left: @u.Left; top: @u.Top; height: @u.Height; width: @u.Width;*@
+                    <div class="drag nw"></div>
+                    <div class="drag n"></div>
+                    <div class="drag ne"></div>
+                    <div class="drag e"></div>
+                    <div class="drag se"></div>
+                    <div class="drag s"></div>
+                    <div class="drag sw"></div>
+                    <div class="drag w"></div>
+                    <div class="drag sc"></div>
+                    <div class="drag rt"></div>
+                    @if (u.UID != null && u.UID > 0)
+                    {
+                        <img src="~/img/@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name" class="image01" alt="...">
+                    }
+                    else
+                    {
+                        <img src="..." class="image01" alt="...">
+                    }
+                </div>
                     }
                 }
             </div>
@@ -388,7 +388,7 @@
             <div class="xform-list">
                 @foreach (var u in offer.XForms)
                 {
-                <div class="XIDcard" data-xid="@u.XID" style="border:solid; border-color:ActiveBorder; display:flex; flex-wrap:nowrap;" draggable="true">
+                <div class="XIDcard" data-xid="@u.XID" style="border:solid; border-color:ActiveBorder; display:flex; flex-wrap:nowrap; draggable="true">
                     @if (u.UID != null && u.UID > 0)
                     {
 
@@ -440,17 +440,17 @@
                                     <input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" />
                                 </td>
                                 <td style="width:1rem; margin-left:5px">
-                                    <a>   C </a>
+                                    <a>   Tr </a>
                                 </td>
                                 <td>
-                                    <input type="text" id="InputC_@u.XID" style="width:3rem" @*value="@u.Transparency"*@ />
+                                    <input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
                                 </td>
                             </tr>
                         </Table>
 
 
 
-                        <table>
+                        <table style="margin-left:15px">
                             <tr id="xid_@u.XID" class="xid_row">
                                 <td>
                                     <a onclick="removeTransform(@u.XID);"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a>
@@ -466,6 +466,14 @@
                                     <span id="xid_edit_@u.XID" style="display:none;"><input id="xid_input_@u.XID" type="text" value="@u.XFormName" /></span>
                                 </td>
 
+                            </tr>
+                            <tr>
+                                <td style="width:1rem; margin-left:5px">
+                                    <a>   Z </a>
+                                </td>
+                                <td>
+                                    <input type="text" id="InputZ_@u.XID" style="width:3rem" value="@u.ZOrder" />
+                                </td>
                             </tr>
                         </table>
 
@@ -618,11 +626,11 @@
         let prevY = e.clientY;
         console.log("e class list :" + e.target.classList)
 
-        document.querySelectorAll('.XFImg').forEach(xf => {
-            xf.style.zIndex = 100;
-        });
+        //document.querySelectorAll('.XFImg').forEach(xf => {
+        //    xf.style.zIndex = 100;
+        //});
 
-        el.style.zIndex = 2000;
+        //el.style.zIndex = 2000;
 
         function mousemove(e) {
             if (isResizing) return false;
@@ -727,6 +735,11 @@
                 prevY = e.clientY;
                 el.style.transform = 'rotate(' + elAngle + 'deg)';
 
+                UpdateXID(eXID);
+            }
+
+            function UpdateXID(ID) {
+
                 console.log(" eXID: " + eXID);
                 console.log(" ID: " + el.id);
 
@@ -735,18 +748,12 @@
                 console.log("W: " + el.style.width);
                 console.log("H: " + el.style.height);
                 console.log("R: " + elAngle);
-                //console.log("C: " + el.style.transparency);
 
-                UpdateXID(eXID);
-            }
-
-            function UpdateXID(ID) {
                 document.getElementById("InputT_" + ID).value = el.style.top;
                 document.getElementById("InputL_" + ID).value = el.style.left;
                 document.getElementById("InputW_" + ID).value = el.style.width;
                 document.getElementById("InputH_" + ID).value = el.style.height;
                 document.getElementById("InputR_" + ID).value = elAngle;
-                //document.getElementById("InputC_" + ID).value = el.style.transparency;
             }
 
             function mouseup() {
@@ -772,8 +779,8 @@
             xf.width = parseInt(document.getElementById("InputW_" + xf.xid).value);
             xf.height = parseInt(document.getElementById("InputH_" + xf.xid).value);
             xf.rotation = parseFloat(document.getElementById("InputR_" + xf.xid).value);
-            //xf.transparency = parseInt(document.getElementById("InputC_" + xf.xid).value);
-            //xf.ZOrder = parseFloat(document.getElementById("InputZ_" + xf.xid).value);
+            xf.transparency = parseFloat(document.getElementById("InputC_" + xf.xid).value);
+            xf.ZOrder = parseInt(document.getElementById("InputZ_" + xf.xid).value);
             xf.XFormName = document.getElementById("xid_display_" + xf.xid).value;
             console.log("data-xid! " + xf.xid);
             console.log("T " + document.getElementById("InputT_" + xf.xid).value);
