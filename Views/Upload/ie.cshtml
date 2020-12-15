@@ -428,19 +428,19 @@
                                         <a>   T </a>
                                     </td>
                                     <td>
-                                        <input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" />
+                                        <input type="text" id="InputT_@u.XID" style="width:3rem" value="@u.Top" onchange="updateXForms(@u.XID)"/>
                                     </td>
                                     <td style="width:1rem; margin-left:5px">
                                         <a>   W </a>
                                     </td>
                                     <td>
-                                        <input type="text" id="InputW_@u.XID" style="width:3rem" value="@u.Width" />
+                                        <input type="text" id="InputW_@u.XID" style="width:3rem" value="@u.Width" onchange="updateXForms(@u.XID)"/>
                                     </td>
                                     <td style="width:1rem; margin-left:5px">
                                         <a>   R </a>
                                     </td>
                                     <td>
-                                        <input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" />
+                                        <input type="text" id="InputR_@u.XID" style="width:3rem" value="@u.Rotation" onchange="updateXForms(@u.XID)"/>
                                     </td>
                                 </tr>
                                 <tr class="xform-row">
@@ -448,19 +448,19 @@
                                         <a>   L </a>
                                     </td>
                                     <td>
-                                        <input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" />
+                                        <input type="text" id="InputL_@u.XID" style="width:3rem" value="@u.Left" onchange="updateXForms(@u.XID)"/>
                                     </td>
                                     <td style="width:1rem; margin-left:5px">
                                         <a>   H </a>
                                     </td>
                                     <td>
-                                        <input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" />
+                                        <input type="text" id="InputH_@u.XID" style="width:3rem" value="@u.Height" onchange="updateXForms(@u.XID)"/>
                                     </td>
                                     <td style="width:1rem; margin-left:5px">
                                         <a>   Tr </a>
                                     </td>
                                     <td>
-                                        <input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" />
+                                        <input type="text" id="InputC_@u.XID" style="width:3rem" value="@u.Transparency" onchange="updateXForms(@u.XID)"/>
                                     </td>
                                 </tr>
                             </Table>
@@ -487,7 +487,7 @@
                                         <a>   Z </a>
                                     </td>
                                     <td>
-                                        <input type="text" id="InputZ_@u.XID" style="width:3rem" value="@u.ZOrder" />
+                                        <input type="text" id="InputZ_@u.XID" style="width:3rem" value="@u.ZOrder" onchange="updateXForms(@u.XID)"/>
                                     </td>
                                 </tr>
                             </table>                            
@@ -563,7 +563,6 @@
         document.getElementById(`${IDtype}_edit_button_${ID}`).style.display = "block";
         document.getElementById(`${IDtype}_save_button_${ID}`).style.display = "none";
         document.getElementById(`${IDtype}_display_${ID}`).innerHTML = document.getElementById(`${IDtype}_input_${ID}`).value;
-        //document.getElementById(`soid_display_${soid}`).innerHTML = document.getElementById(`soid_input_${soid}`).value;
     }
 
     function visibleSelectionOption(IDtype, XID) {
@@ -649,24 +648,20 @@
             if (isResizing) return false;
             el = e.target;
             eXID = parseInt(e.target.attributes["data-xid"].value);
-            //e.target.style.opacity = "0.2";
             console.log("mouseOVER " + eXID);
-
 
             for (let drag of dragtool) {
                 dXID = parseInt(drag.attributes["data-dxid"].value);
                 if (dXID == eXID) { drag.style.opacity = 1; } else { drag.style.opacity = 0;}
             }
-
-
-
-
         }, false);
+
         x.addEventListener("mouseout", function (e) {
             //e.target.style.opacity = "1.0";
             console.log("mouseOUT ");
             //for (let drag of dragtool) {drag.style.opacity = 0;}
         }, false);
+
         x.addEventListener("mousedown", mousedown);
     });
 
@@ -703,7 +698,15 @@
             el.style.transform = 'rotate(' + elAngle + 'deg)';
             console.log("mouse move !! " + elAngle);
 
-            UpdateXID(eXID);
+
+            console.log(" eXID: " + eXID);
+            console.log(" ID: " + el.id);
+
+            console.log("TT: " + el.style.top);
+            console.log("LL: " + el.style.left);
+
+            document.getElementById("InputT_" + eXID).value = el.style.top;
+            document.getElementById("InputL_" + eXID).value = el.style.left;
         }
 
         function mouseup() {
@@ -791,11 +794,6 @@
                 prevY = e.clientY;
                 el.style.transform = 'rotate(' + elAngle + 'deg)';
 
-                UpdateXID(eXID);
-            }
-
-            function UpdateXID(ID) {
-
                 console.log(" eXID: " + eXID);
                 console.log(" ID: " + el.id);
 
@@ -805,11 +803,11 @@
                 console.log("H: " + el.style.height);
                 console.log("R: " + elAngle);
 
-                document.getElementById("InputT_" + ID).value = el.style.top;
-                document.getElementById("InputL_" + ID).value = el.style.left;
-                document.getElementById("InputW_" + ID).value = el.style.width;
-                document.getElementById("InputH_" + ID).value = el.style.height;
-                document.getElementById("InputR_" + ID).value = elAngle;
+                document.getElementById("InputT_" + eXID).value = el.style.top;
+                document.getElementById("InputL_" + eXID).value = el.style.left;
+                document.getElementById("InputW_" + eXID).value = el.style.width;
+                document.getElementById("InputH_" + eXID).value = el.style.height;
+                document.getElementById("InputR_" + eXID).value = elAngle;
             }
 
             function mouseup() {
@@ -825,6 +823,19 @@
 </script>
 
 <script type="text/javascript">
+
+    function updateXForms(ID) {
+        console.log("updateXForms, XID " + ID);
+        e = document.getElementById("XFImg_" + ID);
+        e.style.top = document.getElementById("InputT_" + ID).value + "px";
+        e.style.left = document.getElementById("InputL_" + ID).value + "px";
+        e.style.width = document.getElementById("InputW_" + ID).value + "px";
+        e.style.height = document.getElementById("InputH_" + ID).value + "px";
+        e.style.transform = 'rotate(' + document.getElementById("InputR_" + ID).value + 'deg)';
+        e.style.opacity = document.getElementById("InputC_" + ID).value + "px";
+        e.style.zIndex = document.getElementById("InputZ_" + ID).value + "px";
+    }
+
     function saveXForms() {
         var xforms = [];
         console.log("Beg SAVE XForms");
