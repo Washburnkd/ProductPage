@@ -14,6 +14,7 @@ namespace ProductPage.Data
         public int XID { get; set; }
         public int AID { get; set; }
         public int OID { get; set; }
+        public int IXbit { get; set; }
         public int ZOrder { get; set; }
         public string XFormName { get; set; }
         public int UID { get; set; }

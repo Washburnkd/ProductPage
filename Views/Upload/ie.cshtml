@@ -286,7 +286,6 @@
                     @if (u.XID >= 0)
                     {
 
-                        @*< div class="XFImg" id = "XFImg_@u.XID" data-xid="@u.XID" style="transform: rotate(@u.Rotation deg); height: @u.Height px; width: @u.Width px;">*@
                         <div class="XFImg" id="XFImg_@u.XID" data-xid="@u.XID" data-rotation="@u.Rotation" style="position:absolute; top:@(u.Top)px; left:@(u.Left)px;  height:@(u.Height)px; width:@(u.Width)px; opacity:@u.Transparency; z-index:@u.ZOrder" transform:rotate(@(u.Rotation)deg);">
                             @*; left: @u.Left; top: @u.Top; height: @u.Height; width: @u.Width;*@
                             <div class="drag nw" data-dxid="@u.XID"></div>
@@ -364,22 +363,15 @@
             <div class="ItemList" id="ItemList">
                 <table>
 
-                    @foreach (var u in offer.OItems)
+                    @foreach (var u in offer.Items)
                     {
                     <tr>
                         <td>
-                            <div class="card" id="Item_@u.IID" data-iid="@u.IID" data-ItemXForm="@u.Selections" style="width:3rem; height:3rem; margin-right: 10px;">
+                            <div class="card" id="@u.Selections" data-iid="@u.IID" data-ItemXForm="@u.Selections" data-XFormSel="@u.XFormSel" style="width:3rem; height:3rem; margin-right: 10px;">
                                 <a>@u.IID</a>
                             </div>
-
-
-                            @foreach (var x in offer.XForms.Where(xm => xm.OID == u.OID))
-                            {
-                                <div class="ItemXForm" id="@x.XID@u.Selections" data-xid="@x.XID" data-XFvisible="block" style="display:block"></div> 
-                            }
-
                         </td>
-                            @*@foreach (var SOIDstr in @offer.OItems.FirstOrDefault(x => x.IID == u.IID).Selections.Split(','))*@
+                            @*@foreach (var SOIDstr in @offer.Items.FirstOrDefault(x => x.IID == u.IID).Selections.Split(','))*@
                             @foreach (var s in offer.ItemSelections.Where(m => m.IID == u.IID))
                             {
                                 <td>
@@ -406,7 +398,7 @@
             <div class="xform-list">
                 @foreach (var u in offer.XForms)
                 {
-                    <div class="XIDcard" data-xid="@u.XID" style="border:solid; border-color:ActiveBorder; display:flex; flex-wrap:nowrap;" draggable="true">
+                    <div class="XIDcard" ID="XIDcard_@u.XID" data-xid="@u.XID" data-ixbit="@u.IXbit" style="border:solid; border-color:ActiveBorder; display:flex; flex-wrap:nowrap;" draggable="true">
                         @if (u.UID != null && u.UID > 0)
                         {
                             <table>
@@ -566,27 +558,43 @@
     }
 
     function visibleSelectionOption(IDtype, XID) {
+        //Swap buttons
         document.getElementById(`${IDtype}_visible_button_${XID}`).style.display = "none";
         document.getElementById(`${IDtype}_hidden_button_${XID}`).style.display = "block";
 
+        //Show Xform
         document.getElementById(`XFImg_${XID}`).style.display = "none";
 
-        document.getElementById(GetItemID(XID)).attributes["data-xfvisible"].value = "block";
+        //Save new state in memory
+        ////document.getElementById(GetItemID(XID)).attributes["data-xfvisible"].value = "block";
+        ClrItemSel(XID, true);
+
         for (let drag of dragtool) { drag.style.opacity = 0; }
     }
 
     function hiddenSelectionOption(IDtype, XID) {
+        //Swap buttons
         document.getElementById(`${IDtype}_hidden_button_${XID}`).style.display = "none";
         document.getElementById(`${IDtype}_visible_button_${XID}`).style.display = "block";
 
+        //Hide Xform
         document.getElementById(`XFImg_${XID}`).style.display = "block";
 
-        document.getElementById(GetItemID(XID)).attributes["data-xfvisible"].value = "none";
+        //Save new state in memory
+        ////document.getElementById(GetItemID(XID)).attributes["data-xfvisible"].value = "none";
+        ClrItemSel(XID, false);
+
         for (let drag of dragtool) { drag.style.opacity = 0; }
     }
 
-    function GetItemID(XID) {
-        return (XID + document.getElementById(`ItemSID`).attributes["data-ItemSelID"].value)
+    function ClrItemSel(XID,Set) {
+        ItemID = document.getElementById(`ItemSID`).attributes["data-ItemSelID"].value
+        XFormSel = document.getElementById(ItemID).attributes["data-xformsel"].value
+        let IXbit = parseInt(document.getElementById(`XIDcard_${XID}`).attributes["data-IXbit"].value);
+        let OrN = 2 ** (IXbit - 1);       
+        XFormSel = XFormSel | OrN;
+        if (Set) { XFormSel = XFormSel - OrN; }
+        document.getElementById(ItemID).attributes["data-xformsel"].value = XFormSel;
     }
 
     function selectSOID(sid, soid) {
@@ -612,13 +620,17 @@
         });
 
 
-        //Load Item Selection Visible Selections
+        //Load Item XForm Selection Visible Selections
         document.querySelectorAll('.XIDcard').forEach(s => {
             let sXID = s.attributes["data-xid"].value;
-            console.log("visXID " + sXID);
-            console.log("vis set " + document.getElementById(GetItemID(sXID)).attributes["data-xfvisible"].value);
 
-            if (document.getElementById(GetItemID(sXID)).attributes["data-xfvisible"].value == "none")
+            ItemID = document.getElementById(`ItemSID`).attributes["data-ItemSelID"].value
+            XFormSel = document.getElementById(ItemID).attributes["data-xformsel"].value
+            let IXbit = parseInt(s.attributes["data-IXbit"].value);
+            let OrN = 2 ** (IXbit - 1);
+            XFormSel = XFormSel & OrN;
+
+            if (XFormSel > 0)
             {
                 console.log("none");
                  hiddenSelectionOption('xid', sXID);
@@ -832,8 +844,8 @@
         e.style.width = document.getElementById("InputW_" + ID).value + "px";
         e.style.height = document.getElementById("InputH_" + ID).value + "px";
         e.style.transform = 'rotate(' + document.getElementById("InputR_" + ID).value + 'deg)';
-        e.style.opacity = document.getElementById("InputC_" + ID).value + "px";
-        e.style.zIndex = document.getElementById("InputZ_" + ID).value + "px";
+        e.style.opacity = document.getElementById("InputC_" + ID).value;
+        e.style.zIndex = document.getElementById("InputZ_" + ID).value;
     }
 
     function saveXForms() {

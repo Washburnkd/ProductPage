@@ -21,7 +21,7 @@ namespace ProductPage
             o.Uploads = _context.Uploads.ToList();
             o.Selections = _context.Selections.Where(m => m.OID == oid).ToList();
             o.SelectionOptions = _context.SelectionOptions.Where(m => m.OID == oid).ToList();
-            o.OItems = _context.OItems.Where(m => m.OID == oid).ToList();
+            o.Items = _context.Items.Where(m => m.OID == oid).ToList();
             o.ItemSelections = _context.ItemSelections.Where(m => m.OID == oid).ToList();
             o.XForms = _context.XForms.Where(m => m.OID == oid).ToList();
             o.ItemXForms = _context.ItemXForms.Where(m => m.OID == oid).ToList();
