@@ -23,6 +23,19 @@
 
 
 <style>
+    .SIDcard {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+    }
     .grid-main {
         display: grid;
         grid-template-columns: 'imageUpload auto auto' 'canvas xform-list upload-list' 'selection-list xform-list upload-list' 'xformselection-list auto auto';
@@ -274,27 +287,27 @@
                     {
 
                         @*< div class="XFImg" id = "XFImg_@u.XID" data-xid="@u.XID" style="transform: rotate(@u.Rotation deg); height: @u.Height px; width: @u.Width px;">*@
-                <div class="XFImg" id="XFImg_@u.XID" data-xid="@u.XID" data-rotation="@u.Rotation" style="position:absolute;top:@(u.Top)px; left:@(u.Left)px;  height:@(u.Height)px; width:@(u.Width)px; opacity:@u.Transparency; z-index:@u.ZOrder" transform:rotate(@(u.Rotation)deg);">
-                    @*; left: @u.Left; top: @u.Top; height: @u.Height; width: @u.Width;*@
-                    <div class="drag nw"></div>
-                    <div class="drag n"></div>
-                    <div class="drag ne"></div>
-                    <div class="drag e"></div>
-                    <div class="drag se"></div>
-                    <div class="drag s"></div>
-                    <div class="drag sw"></div>
-                    <div class="drag w"></div>
-                    <div class="drag sc"></div>
-                    <div class="drag rt"></div>
-                    @if (u.UID != null && u.UID > 0)
-                    {
-                        <img src="~/img/@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name" class="image01" alt="...">
-                    }
-                    else
-                    {
-                        <img src="..." class="image01" alt="...">
-                    }
-                </div>
+                        <div class="XFImg" id="XFImg_@u.XID" data-xid="@u.XID" data-rotation="@u.Rotation" style="position:absolute; top:@(u.Top)px; left:@(u.Left)px;  height:@(u.Height)px; width:@(u.Width)px; opacity:@u.Transparency; z-index:@u.ZOrder" transform:rotate(@(u.Rotation)deg);">
+                            @*; left: @u.Left; top: @u.Top; height: @u.Height; width: @u.Width;*@
+                            <div class="drag nw" data-dxid="@u.XID"></div>
+                            <div class="drag n" data-dxid="@u.XID"></div>
+                            <div class="drag ne" data-dxid="@u.XID"></div>
+                            <div class="drag e" data-dxid="@u.XID"></div>
+                            <div class="drag se" data-dxid="@u.XID"></div>
+                            <div class="drag s" data-dxid="@u.XID"></div>
+                            <div class="drag sw" data-dxid="@u.XID"></div>
+                            <div class="drag w" data-dxid="@u.XID"></div>
+                            <div class="drag sc" data-dxid="@u.XID"></div>
+                            <div class="drag rt" data-dxid="@u.XID"></div>
+                            @if (u.UID != null && u.UID > 0)
+                            {
+                                <img src="~/img/@offer.Uploads.FirstOrDefault(x => x.UID == u.UID).Name" class="image01" alt="...">
+                            }
+                            else
+                            {
+                                <img src="..." class="image01" alt="...">
+                            }
+                        </div>
                     }
                 }
             </div>
@@ -303,11 +316,11 @@
 
             </div>
 
-            <div class="selection-list">
+            <div class="SIDcards" ID="ItemSID" data-ItemSelID="0">
+
                 @foreach (var s in offer.Selections)
                 {
-
-                    <div id="sid_@s.SID" class="card" data-sid="@s.SID" data-sel="0" style="width: 18rem;">
+                    <div id="sid_@s.SID" class="SIDcard" data-sid="@s.SID" data-soid="1" data-sel="0" style="width: 18rem;">
                         @*@uploads.UploadList.FirstOrDefault(x => x.UID == s.UID).Name*@
                         <span style="display: flex; flex-wrap: nowrap;"> <a style="padding: 0px 1px"><i class="fas fa-trash-alt" style="color:dodgerblue;"></i></a> <a href="#" style="padding: 0px 1px"><i class="fas fa-edit" style="color:dodgerblue;"></i></a> @s.Option </span>
                         <table>
@@ -348,22 +361,27 @@
 
             </div>
 
-            <div class="ItemList" id="ItemList" data-SelectedItem="0">
+            <div class="ItemList" id="ItemList">
                 <table>
 
                     @foreach (var u in offer.OItems)
                     {
-                        <tr>
-                            <td>
-                                <div class="card" id="Item_@u.IID" data-iid="@u.IID" style="width:3rem; height:3rem; margin-right: 10px;">
-                                    <a>@u.IID</a>
-                                </div>
-                            </td>
+                    <tr>
+                        <td>
+                            <div class="card" id="Item_@u.IID" data-iid="@u.IID" data-ItemXForm="@u.Selections" style="width:3rem; height:3rem; margin-right: 10px;">
+                                <a>@u.IID</a>
+                            </div>
 
+
+                            @foreach (var x in offer.XForms.Where(xm => xm.OID == u.OID))
+                            {
+                                <div class="ItemXForm" id="@x.XID@u.Selections" data-xid="@x.XID" data-XFvisible="block" style="display:block"></div> 
+                            }
+
+                        </td>
                             @*@foreach (var SOIDstr in @offer.OItems.FirstOrDefault(x => x.IID == u.IID).Selections.Split(','))*@
                             @foreach (var s in offer.ItemSelections.Where(m => m.IID == u.IID))
                             {
-
                                 <td>
                                     @offer.SelectionOptions.FirstOrDefault(x => x.SOID == s.SOID).OName
                                 </td>
@@ -531,36 +549,6 @@
 </table>
 
 <script type="text/javascript">
-    function visibleSelectionOption(IDtype, ID) {
-        document.getElementById(`${IDtype}_visible_button_${ID}`).style.display = "none";
-        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "block";
-        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "block";
-    }
-
-    function hiddenSelectionOption(IDtype, ID) {
-        document.getElementById(`${IDtype}_hidden_button_${ID}`).style.display = "none";
-        document.getElementById(`${IDtype}_visible_button_${ID}`).style.display = "block";
-
-
-        //var payload = {};
-        //payload.uid = uid;
-        //payload.oid = oid;
-
-        //fetch("addtransform", {
-        //    method: "POST",
-        //    body: JSON.stringify(payload),
-        //    headers: {
-        //        "Content-type": "application/json"
-        //    }
-        //}).then(resp => resp.json())
-        //    .then(json => {
-        //        console.log(json)
-        //        location.reload();
-        //    })
-
-
-
-    }
 
     function editSelectionOption(IDtype, ID) {
         document.getElementById(`${IDtype}_display_${ID}`).style.display = "none";
@@ -577,14 +565,74 @@
         document.getElementById(`${IDtype}_display_${ID}`).innerHTML = document.getElementById(`${IDtype}_input_${ID}`).value;
         //document.getElementById(`soid_display_${soid}`).innerHTML = document.getElementById(`soid_input_${soid}`).value;
     }
-    selectSOID(1, 1);
-    selectSOID(2, 1);
+
+    function visibleSelectionOption(IDtype, XID) {
+        document.getElementById(`${IDtype}_visible_button_${XID}`).style.display = "none";
+        document.getElementById(`${IDtype}_hidden_button_${XID}`).style.display = "block";
+
+        document.getElementById(`XFImg_${XID}`).style.display = "none";
+
+        document.getElementById(GetItemID(XID)).attributes["data-xfvisible"].value = "block";
+        for (let drag of dragtool) { drag.style.opacity = 0; }
+    }
+
+    function hiddenSelectionOption(IDtype, XID) {
+        document.getElementById(`${IDtype}_hidden_button_${XID}`).style.display = "none";
+        document.getElementById(`${IDtype}_visible_button_${XID}`).style.display = "block";
+
+        document.getElementById(`XFImg_${XID}`).style.display = "block";
+
+        document.getElementById(GetItemID(XID)).attributes["data-xfvisible"].value = "none";
+        for (let drag of dragtool) { drag.style.opacity = 0; }
+    }
+
+    function GetItemID(XID) {
+        return (XID + document.getElementById(`ItemSID`).attributes["data-ItemSelID"].value)
+    }
+
     function selectSOID(sid, soid) {
+        for (let drag of dragtool) {drag.style.opacity = 0;}
+        //set background color
         document.querySelectorAll(`#sid_${sid} .soid_row`).forEach(sr => {
             sr.style.backgroundColor = "";
         });
         document.getElementById(`soid_${soid}`).style.backgroundColor = 'rgba(150, 150, 200, 0.30)';
-        //put selection response here
+
+
+        console.log("sid " + sid);
+        console.log("soid " + soid);
+        console.log(`sid_${sid}`);
+
+        //set soid ID
+        document.getElementById(`sid_${sid}`).attributes["data-soid"].value = soid;
+
+        //set ItemSelection ID
+        document.getElementById(`ItemSID`).attributes["data-ItemSelID"].value = "";
+        document.querySelectorAll('.SIDcard').forEach(s => {
+            document.getElementById(`ItemSID`).attributes["data-ItemSelID"].value = document.getElementById(`ItemSID`).attributes["data-ItemSelID"].value + "." + s.attributes["data-soid"].value;
+        });
+
+
+        //Load Item Selection Visible Selections
+        document.querySelectorAll('.XIDcard').forEach(s => {
+            let sXID = s.attributes["data-xid"].value;
+            console.log("visXID " + sXID);
+            console.log("vis set " + document.getElementById(GetItemID(sXID)).attributes["data-xfvisible"].value);
+
+            if (document.getElementById(GetItemID(sXID)).attributes["data-xfvisible"].value == "none")
+            {
+                console.log("none");
+                 hiddenSelectionOption('xid', sXID);
+            } else
+            {
+                console.log("blocked");
+                visibleSelectionOption('xid', sXID);                
+            }
+
+        });
+
+
+
     }
 </script>
 
@@ -593,23 +641,35 @@
     //const el = document.querySelector(".XFImg");
     let el;
     let eXID;
+    let isResizing = false;
+    let elAngle = 0;
 
     const XFe = document.querySelectorAll('.XFImg').forEach(x => {
         x.addEventListener("mouseenter", function (e) {
+            if (isResizing) return false;
             el = e.target;
             eXID = parseInt(e.target.attributes["data-xid"].value);
             //e.target.style.opacity = "0.2";
             console.log("mouseOVER " + eXID);
+
+
+            for (let drag of dragtool) {
+                dXID = parseInt(drag.attributes["data-dxid"].value);
+                if (dXID == eXID) { drag.style.opacity = 1; } else { drag.style.opacity = 0;}
+            }
+
+
+
+
         }, false);
         x.addEventListener("mouseout", function (e) {
             //e.target.style.opacity = "1.0";
             console.log("mouseOUT ");
+            //for (let drag of dragtool) {drag.style.opacity = 0;}
         }, false);
         x.addEventListener("mousedown", mousedown);
     });
 
-    let isResizing = false;
-    let elAngle = 0;
 
     function mousedown(e) {
         window.addEventListener("mousemove", mousemove);
@@ -649,6 +709,7 @@
         function mouseup() {
             window.removeEventListener("mousemove", mousemove);
             window.removeEventListener('mouseup', mouseup);
+            for (let drag of dragtool) {drag.style.opacity = 0;}
         }
     }
 
@@ -756,6 +817,7 @@
                 window.removeEventListener("mouseup", mouseup);
                 el.attributes["data-rotation"].value = elAngle;
                 isResizing = false;
+                for (let drag of dragtool) {drag.style.opacity = 0;}
             }
         }
     }
